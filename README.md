@@ -32,6 +32,7 @@ Local sync path:
 
 - Use this repository for experiment records and reproducibility; raw model arrays and large intermediate artifacts are kept out to keep the public repo concise.
 - GPU experiments are run on the remote machine and synced to this path.
+- Latest public-best checkpoint: `submissions/public/run33_on12_w05_v2.csv`, `0.89304` (2026-05-08 10:54:24 UTC), currently rank 1.
 
 ## Runs
 
@@ -56,5 +57,7 @@ Local sync path:
 | run17 | `submissions/public/run17_rank_run12_50_rank1314_50.csv` | 0.898053 | 0.89291 | Rank blend of run12 and avg(run13,run14); below run12/run16 on public. |
 | run18 | `submissions/public/run18_run12_99_run02_01.csv` | 0.897777 | 0.89293 | `0.99*run12 + 0.01*run02`; tied public best. |
 | run19 | `submissions/public/run19_rank_run12_90_run09_10.csv` | 0.897605 | 0.89280 | Rank blend of run12/run09; below current best. |
+| run32 | `submissions/public/run32_on12_w05_v2.csv` | 0.897792 | 0.89292 | `0.95*run12 + 0.05*run32_2seed` (`run32` is GPU CatBoost with `depth=5`, `l2_leaf_reg=12`, `one_hot_max_size=3`, `random_strength=0.8`, `bagging_temperature=1.0`). |
+| run33 | `submissions/public/run33_on12_w05_v2.csv` | 0.897919 | 0.89304 | `0.95*run12 + 0.05*run33_xgb_all_s202`; current best. |
 
-Latest checkpoint in `research/iteration_log_public.md` shows best public score `0.89293` (runs `run12`, `run16`, `run18` tied). Subsequent cycles (`run20`-`run31`) were recorded for process continuity but did not surpass this score.
+Latest checkpoint in `research/iteration_log_public.md` is `2026-05-08` and shows the new best public score `0.89304` on `run33_on12_w05_v2.csv`; earlier runs (`run12`, `run16`, `run18`) remain as historical references.

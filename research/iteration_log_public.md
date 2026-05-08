@@ -6,12 +6,13 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 
 ## Current Best
 
-- Submission: `submissions/public/run12_gpu_cat_seed_blend_10_11.csv`, `submissions/public/run16_run12_70_seed1314_30.csv`, and `submissions/public/run18_run12_99_run02_01.csv` are tied on public.
-- Latest tied submission: `2026-05-01 00:11:27.720000`
-- OOF/CV: `run12=0.897786`, `run16=0.897998`, `run18=0.897777`
-- Public score: `0.89293`
-- Rank after submission: `1 / 11` as refreshed on `2026-05-01 02:16 UTC`.
-- Delta vs previous submitted best before GPU CTR path `run09`: `+0.00568`
+- Submission: `submissions/public/run33_on12_w05_v2.csv`
+- Latest submission: `2026-05-08 10:54:24.343000`
+- OOF/CV: `run33=0.897919`
+- Public score: `0.89304`
+- Rank after submission: `1 / 11` as refreshed on `2026-05-08 UTC`.
+- Delta vs previous best: `+0.00011`
+- Notes: `run33` is a 95% `run12` + 5% `run33_xgb_all_s202` blend and is a public-safe bump while preserving `run12` backbone behavior.
 
 ## Loop Checklist
 
@@ -405,3 +406,52 @@ Conclusion:
 - Both submissions in this cycle failed to improve public score (`0.89280`, `0.89280`).
 - Best remains `0.89293` from `run12` / `run16` / `run18`.
 - Next cycle should prioritize distinct non-duplicate signal (e.g., fresh GPU model with different feature construction or calibrated blending constraints) before submitting.
+
+## 2026-05-08 Two-Submission Cycle
+
+Pre-cycle checks:
+
+- UTC time at quota check: `2026-05-08 10:27:00`.
+- Kaggle submissions list before cycle contained `run31_mix_run21_050.csv` as latest from 2026-05-07, so remaining quota was treated as `2/2`.
+- Leaderboard refresh was available:
+  - Current team score: `0.89293` (`run18` / `run16` / `run12` set).
+- Public notebook scan (`kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun`) remained unchanged in useful signal.
+- No high-impact discussion signal appeared in available endpoints.
+- Research direction selected after analysis: evaluate a fresh GPU CatBoost variant on same feature path with tighter CTR settings (`run32`) and a fresh GPU XGBoost run (`run33`) as low-risk diversifiers, then blend small weight into `run12`.
+
+Cycle 1:
+
+- Candidate selected: `submissions/public/run32_on12_w05_v2.csv`.
+- Candidate construction: `0.95*run12 + 0.05*run32_2seed`, where `run32_2seed` is average of seeds `202` and `777`.
+- Pre-submit diagnostics:
+  - `run32_s202` OOF `0.896725`, `run32_s777` OOF `0.896957`, mean two-seed OOF `0.897213`.
+  - Candidate OOF: `0.897792`.
+  - Validation: `id,Exited` format, `110,023` rows, finite `[0,1]` values.
+  - Pred statistics: test mean `0.21213`, std `0.27207`, p99 `0.96824`.
+  - Correlation checks:
+    - vs `run12`: high but acceptable `0.99999`
+    - vs overfit proxy `run01`: slightly lower than risk floor from earlier same-family seeds.
+- Submitted: `2026-05-08 10:50:20.580000`.
+- Public score: `0.89292`.
+- Result: failed to improve best; no score break.
+
+Cycle 2:
+
+- Candidate selected: `submissions/public/run33_on12_w05_v2.csv`.
+- Candidate construction: `0.95*run12 + 0.05*run33_xgb_all_s202`.
+- Pre-submit diagnostics:
+  - `run33_xgb_all_s202` OOF `0.895616`.
+  - Candidate OOF: `0.897919`.
+  - Validation: `id,Exited` format, `110,023` rows, monotonic/unique ids, finite predictions.
+  - Pred statistics: mean `0.21235`, std `0.27190`, p99 `0.96800`.
+  - Correlation checks:
+    - vs `run12`: `0.99981` (small, stable perturbation).
+    - vs `run01`: reduced alignment versus `run12` and `run32` regime, indicating lower overfit coupling.
+- Submitted: `2026-05-08 10:54:24.343000`.
+- Public score: `0.89304`.
+- Result: successful + new public best; leaderboard returned `Kun Zhang` at rank `1`.
+
+Conclusion:
+
+- New global best became `0.89304` on `run33_on12_w05_v2.csv` and becomes the current anchor.
+- Rule for next cycle: prioritize controlled public-safe candidates that remain close to `run33` and avoid larger probability perturbations unless fold-level public-risk diagnostics improve.
