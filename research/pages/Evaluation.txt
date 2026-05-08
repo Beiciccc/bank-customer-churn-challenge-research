@@ -1,0 +1,13 @@
+name        content                                                                                                                                                                                                                                                                                                                                                                                                                                         
+----------  ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  
+Evaluation  Submissions are evaluated on [area under the ROC curve](http://en.wikipedia.org/wiki/Receiver_operating_characteristic) between the predicted probability and the observed target.
+
+
+## Submission File
+For each `id` in the test set, you must predict the probability for the target variable `Exited`. The file should contain a header and have the following format:
+
+    id,Exited
+    165034,0.9
+    165035,0.1
+    165036,0.5
+    etc.  

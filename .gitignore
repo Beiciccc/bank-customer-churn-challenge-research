@@ -1,0 +1,26 @@
+._*
+.DS_Store
+
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Large training artifacts / temporary outputs
+models/
+reports/
+*.npy
+
+# Local exploratory notebooks and archives
+research/notebooks/
+research/current_notebooks/
+research/s4e1_notebooks/
+research/repos/
+
+# Competition submissions: keep curated public subset only
+submissions/
+!submissions/public/
+
+# Raw package artifacts
+data/raw/binary-battle-ml-bank-customer-churn-challenge.zip
+binary-battle-ml-bank-customer-churn-challenge.zip
+run21_bundle.zip
