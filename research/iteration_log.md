@@ -1,5 +1,3 @@
-# Public Record
-
 # Submission Iteration Log
 
 This file is the required checkpoint after each Kaggle submission. Each cycle records the score first, then the research and experiment plan for the next attempt.
@@ -12,7 +10,7 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Public score: `0.89306`
 - Rank after submission: `1 / 11` as refreshed on `2026-05-12 UTC`.
 - Delta vs previous best: `+0.00002`
-- Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
+
 
 ## Loop Checklist
 
@@ -24,83 +22,45 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Validate OOF/fold stability/blend behavior and submission CSV format locally.
 - Submit only when the candidate beats or usefully diversifies the current best.
 
-## 2026-05-09 Quota Blocked Cycle + Next Step
-
-Pre-submit checks:
-
-- UTC date and time at check: `2026-05-09`.
-- Remaining quota today: `0/2`.
-- Today's Kaggle submissions:
-  - `run33_on12_w01_v2.csv` at `2026-05-09 02:22:40.103000` (public `0.89296`).
-  - `run33_on12_w02_v2.csv` at `2026-05-09 02:22:33.593000` (public `0.89299`).
-- Public benchmark remains:
-  - `run33_on12_w05_v2.csv` at `0.89304` (1 / 11).
-- Research update:
-  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged (still dominated by baseline methods).
-  - No direct forum endpoint is yielding a stronger immediate public-code signal in current tooling.
-
-Local candidate scan before reset (no new GPU run in this blocked phase):
-
-- `run33_on12_w10_v3.csv` (10% run33): OOF `0.898027165`; test std/99th-pctl `0.27164 / 0.96761`.
-- `run33_on12_w15_v3.csv` (15% run33): OOF `0.898110121`; test std/99th-pctl `0.27143 / 0.96719`.
-- `run33_on12_w20_v3.csv` (20% run33): OOF `0.898167081`; test std/99th-pctl `0.27126 / 0.96683`.
-- `run33run14_on12_w10_10_v3.csv` (10% run33 + 10% run14): OOF `0.898108728`; test std/99th-pctl `0.27160 / 0.96752`.
-
-Submit plan after UTC reset:
-
-1) `run33_on12_w20_v3.csv` (primary).
-2) `run33run14_on12_w10_10_v3.csv` (risk hedge).
-
-Risk rule before each submission:
-
-- `id` / `Exited` format valid, 110,023 rows, no duplicates, no NaN, all predictions in `[0,1]`.
-- If first step fails to improve or is unstable, apply error analysis immediately and continue with step 2 in the same loop.
-
 ## 2026-05-12 Two-Submission Cycle
 
 Pre-cycle checks:
 
-- UTC date and time at check: `2026-05-12`.
-- Remaining quota at start: `2/2` (no local `2026-05-12` entries before submission).
-- Leaderboard before submit: `run33_on12_w05_v2` at `0.89304` rank `1 / 11`.
-- Public notebook scan via `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` continued to show no new actionable strategy.
-- Discussion/discourse endpoint remained inaccessible/low-signal through API tooling; no high-value public merge strategy found.
-
-Experiment and local validation:
-
-- Candidate 1: `run33_on12_w20_v3.csv` (20% run33)
-  - Local OOF: `0.898167`
-  - Pred stats: std `0.27126`, `p99 0.96683`
-- Candidate 2: `run33run14_on12_w10_10_v3.csv` (10% run33 + 10% run14)
-  - Local OOF: `0.898109`
-  - Pred stats: std `0.27160`, `p99 0.96752`
-- Both files passed local checks:
-  - `id,Exited` format
-  - `110,023` rows
-  - monotonic unique IDs matching `sample_submission.csv`
-  - finite and in-range `[0,1]` predictions, no NaN
+- UTC date/time at quota check: `2026-05-12`.
+- Remaining quota before cycle: `2/2` (no local `2026-05-12` entries before cycle).
+- Leaderboard before first submission: top was `0.89304` (`run33_on12_w05_v2`), rank `1 / 11`.
+- Public notebooks scan via `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` did not reveal a new high-signal strategy.
+- Discussion endpoint remained low-signal/unavailable through API, so no direct discussion update was actionable.
+- Experiment focus: keep local-overfit-aware blend path with `run33`/`run12`/`run14` and validate distribution/correlation before submission.
 
 Cycle 1:
 
 - File: `submissions/public/run33_on12_w20_v3.csv`
-- Submitted: `2026-05-12 07:58:07.923000`
-- Public score: `0.89291`
-- Status: COMPLETE
-- Result: no improvement vs current best.
+- Local notes:
+  - Candidate OOF: `0.898167`
+  - std/p99: `0.27126` / `0.96683`
+  - Format checks: `id,Exited` columns, `110,023` rows, IDs aligned to `data/raw/sample_submission.csv`, finite in-range predictions.
+- Submitted: `2026-05-12 07:58:07.923000`.
+- Public score: `0.89291`.
+- Rank: unchanged (`1 / 11`).
+- Result: did not improve best, proceeded to secondary candidate in same loop.
 
 Cycle 2:
 
 - File: `submissions/public/run33run14_on12_w10_10_v3.csv`
-- Submitted: `2026-05-12 07:58:27.390000`
-- Public score: `0.89306`
-- Status: COMPLETE
-- Result: success; team best became `Kun Zhang — 0.89306`.
-- Remaining quota after cycle: `0/2`.
+- Local notes:
+  - Candidate OOF: `0.898109`
+  - std/p99: `0.27160` / `0.96752`
+  - Format checks passed.
+- Submitted: `2026-05-12 07:58:27.390000`.
+- Public score: `0.89306`.
+- Rank: `1 / 11`.
+- Result: success; this became current best.
 
 Conclusion:
 
-- This cycle is completed with one successful uplift.
-- Next experiment direction: refine 3-way blends around `(run33_xgb_all_s202, run12, run14)` and test conservative calibration/monotonic constraints to keep public-safe transfer without score erosion.
+- Two submission cycle complete, with one improvement.
+- Next planned hypothesis: 3-way blend around `(run33_xgb_all_s202, run12, run14)` with small weight perturbation and conservative calibration.
 
 ## 2026-04-28 Cycle After run09
 
@@ -158,7 +118,7 @@ Pre-submit checks:
 
 Submission:
 
-- File: `submissions/public/run12_gpu_cat_seed_blend_10_11.csv`.
+- File: `submissions/run12_gpu_cat_seed_blend_10_11.csv`.
 - Submitted: `2026-04-29 13:38:26.160000`.
 - Public score: `0.89293`.
 - Rank after submission: `1 / 11`.
@@ -176,6 +136,7 @@ Pre-cycle status:
 - Remaining daily quota after `run12`: `1/2`.
 - Public leaderboard after `run12`: rank `1 / 11`, score `0.89293`.
 - Current competition notebook list unchanged; no new public code signal.
+- Research and verifier subagents both recommended exploiting the now-validated GPU CatBoost family via more seed averaging rather than submitting individual seeds or conservative blends.
 
 Experiment:
 
@@ -189,7 +150,7 @@ Experiment:
 
 Submission:
 
-- File: `submissions/public/run15_gpu_cat_4seed_weighted.csv`.
+- File: `submissions/run15_gpu_cat_4seed_weighted.csv`.
 - Submitted: `2026-04-29 14:02:34.337000`.
 - Public score: `0.89291`.
 - Result: successful submission, but slightly below `run12` by `-0.00002`.
@@ -314,7 +275,7 @@ Pre-cycle checks:
 
 Cycle 1:
 
-- Candidate selected: `submissions/public/run21_all_cat_s202.csv` (remote `run21_*` bundle synced to local).
+- Candidate selected: `submissions/run21_all_cat_s202.csv` (remote `run21_*` bundle synced to local).
 - Reasoning: `run21` had very high local OOF (`0.939132` on first `110023` evaluation rows from earlier remote report), worth testing whether this overfit-like family could transfer to public LB.
 - Validation passed for submission format and ranges (`id,Exited`, `110,023` rows, finite values, IDs unique/matching test IDs).
 - Submitted: `2026-05-05 00:51:56.753000`.
@@ -370,14 +331,14 @@ Experiment:
 
 Cycle 1:
 
-- Candidate: `submissions/public/run20_regA_w10_on12.csv`.
+- Candidate: `submissions/run20_regA_w10_on12.csv`.
 - Submitted: `2026-05-04 19:37:35.273000`.
 - Public score: `0.89291`.
 - Rank: `1 / 11` (unchanged, best remains `0.89293`).
 
 Cycle 2:
 
-- Candidate: `submissions/public/run20_regA_w05_on12.csv`.
+- Candidate: `submissions/run20_regA_w05_on12.csv`.
 - Submitted: `2026-05-04 19:38:19.733000`.
 - Public score: `0.89292`.
 - Rank: `1 / 11` (unchanged, best remains `0.89293`).
@@ -401,7 +362,7 @@ Pre-cycle checks:
 
 Cycle 1:
 
-- Candidate: `submissions/public/run23_blend_10_10_80.csv`.
+- Candidate: `submissions/run23_blend_10_10_80.csv`.
 - Form: `0.80*run12 + 0.10*run20_regA_2seed + 0.10*run22_xgb`.
 - OOF (local): `0.897833`.
 - Validation: file format/id alignment/NaN/range checks passed; test p99 `0.96549`, std `0.27074`; correlation to `run12` OOF `0.99981`.
@@ -414,7 +375,7 @@ Cycle 2:
 - Re-scan outcome: no new public notebooks or notable discussion evidence from this day.
 - Candidate search: OOF-weight grid/random search over `run12`, `run20_regA_2seed`, `run20_regB_2seed`, `run22_xgb` found best local point at approximately
   - `0.85*run12 + 0.06*run20_regA_2seed + 0.09*run22_xgb`.
-- Candidate: `submissions/public/run28_best_mix_085_06_09.csv`.
+- Candidate: `submissions/run28_best_mix_085_06_09.csv`.
 - OOF (local): `0.897834`, correlation to `run12` `0.99987`, test mean/std `0.21212 / 0.27096`, p99 `0.96581`.
 - Submitted: `2026-05-06 02:25:22.730000`.
 - Public score: `0.89291` (below best `0.89293`).
@@ -461,7 +422,7 @@ Experiment:
 
 Cycle 1:
 
-- Candidate file: `submissions/public/exp_d_077_010_010_003_prob.csv`.
+- Candidate file: `submissions/exp_d_077_010_010_003_prob.csv`.
 - Submitted: `2026-05-07 00:33:21.613000`.
 - Public score: `0.89280` (failure: below best `0.89293`).
 - Result/analysis:
@@ -470,7 +431,7 @@ Cycle 1:
 
 Cycle 2:
 
-- Candidate file: `submissions/public/rank_mix_85_10_05_rank.csv`.
+- Candidate file: `submissions/rank_mix_85_10_05_rank.csv`.
 - Submitted: `2026-05-07 00:33:57.013000`.
 - Public score: `0.89280` (failure).
 - Result/analysis:
@@ -484,52 +445,3 @@ Conclusion:
 - Both submissions in this cycle failed to improve public score (`0.89280`, `0.89280`).
 - Best remains `0.89293` from `run12` / `run16` / `run18`.
 - Next cycle should prioritize distinct non-duplicate signal (e.g., fresh GPU model with different feature construction or calibrated blending constraints) before submitting.
-
-## 2026-05-08 Two-Submission Cycle
-
-Pre-cycle checks:
-
-- UTC time at quota check: `2026-05-08 10:27:00`.
-- Kaggle submissions list before cycle contained `run31_mix_run21_050.csv` as latest from 2026-05-07, so remaining quota was treated as `2/2`.
-- Leaderboard refresh was available:
-  - Current team score: `0.89293` (`run18` / `run16` / `run12` set).
-- Public notebook scan (`kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun`) remained unchanged in useful signal.
-- No high-impact discussion signal appeared in available endpoints.
-- Research direction selected after analysis: evaluate a fresh GPU CatBoost variant on same feature path with tighter CTR settings (`run32`) and a fresh GPU XGBoost run (`run33`) as low-risk diversifiers, then blend small weight into `run12`.
-
-Cycle 1:
-
-- Candidate selected: `submissions/public/run32_on12_w05_v2.csv`.
-- Candidate construction: `0.95*run12 + 0.05*run32_2seed`, where `run32_2seed` is average of seeds `202` and `777`.
-- Pre-submit diagnostics:
-  - `run32_s202` OOF `0.896725`, `run32_s777` OOF `0.896957`, mean two-seed OOF `0.897213`.
-  - Candidate OOF: `0.897792`.
-  - Validation: `id,Exited` format, `110,023` rows, finite `[0,1]` values.
-  - Pred statistics: test mean `0.21213`, std `0.27207`, p99 `0.96824`.
-  - Correlation checks:
-    - vs `run12`: high but acceptable `0.99999`
-    - vs overfit proxy `run01`: slightly lower than risk floor from earlier same-family seeds.
-- Submitted: `2026-05-08 10:50:20.580000`.
-- Public score: `0.89292`.
-- Result: failed to improve best; no score break.
-
-Cycle 2:
-
-- Candidate selected: `submissions/public/run33_on12_w05_v2.csv`.
-- Candidate construction: `0.95*run12 + 0.05*run33_xgb_all_s202`.
-- Pre-submit diagnostics:
-  - `run33_xgb_all_s202` OOF `0.895616`.
-  - Candidate OOF: `0.897919`.
-  - Validation: `id,Exited` format, `110,023` rows, monotonic/unique ids, finite predictions.
-  - Pred statistics: mean `0.21235`, std `0.27190`, p99 `0.96800`.
-  - Correlation checks:
-    - vs `run12`: `0.99981` (small, stable perturbation).
-    - vs `run01`: reduced alignment versus `run12` and `run32` regime, indicating lower overfit coupling.
-- Submitted: `2026-05-08 10:54:24.343000`.
-- Public score: `0.89304`.
-- Result: successful + new public best; leaderboard returned `Kun Zhang` at rank `1`.
-
-Conclusion:
-
-- New global best became `0.89304` on `run33_on12_w05_v2.csv` and becomes the current anchor.
-- Rule for next cycle: prioritize controlled public-safe candidates that remain close to `run33` and avoid larger probability perturbations unless fold-level public-risk diagnostics improve.
