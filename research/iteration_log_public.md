@@ -14,6 +14,34 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-14 Quota Blocked + Next 2-Submission Cycle Plan (pending reset)
+
+- UTC check time: `2026-05-13` (late)
+- Remaining quota today: `0/2`
+- Public leaderboard best remains:
+  - `run33run14_on12_w10_10_v3.csv` at `0.89306` (rank `1 / 11`).
+- Public notebook scan status (`kaggle kernels list`) unchanged, no obvious new public strategy since last scan.
+- Subagent research directions returned:
+  - run31 dual-channel candidates to reduce overfit risk:
+    - `run31_exp_a_080_010_010_dual30p70.csv`  
+    - `run31_exp_a_080_010_010_dual50p50.csv`  
+    - `run31_exp_b_097_001_002_dual30p70.csv`  
+    - `run31_exp_b_097_001_002_dual50p50.csv`
+  - Existing safe 3-way weighted family:
+    - `B_safe_run33run14_run12.csv` (0.20/0.15/0.65)  
+    - `C_lean_run33run14_run12.csv` (0.35/0.10/0.55)  
+    - `E_light_run33run14_run12.csv` (0.16/0.24/0.60)  
+    - `A_main_run33run14_run12.csv` (0.28/0.34/0.38)
+  - Temperature control on `run32` variants:
+    - `run32_tempT0_8.csv`
+    - `run32_tempT1_0.csv`
+    - `run32_tempT1_2.csv`
+- Local validation done on new files before queue:
+  - `run31_exp_*_dual*.csv` row count `110023`, id aligned, values in `[0,1]`, no NaN.
+- Pending submission queue for next reset (exactly 2 submissions):
+  1) `run31_exp_a_080_010_010_dual30p70.csv`
+  2) `run31_exp_a_080_010_010_dual50p50.csv`
+
 ## Loop Checklist
 
 - Record score and rank before starting new work.
@@ -23,6 +51,45 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Sync outputs and reports back to `/Volumes/Z/Bank Customer Churn Challenge`.
 - Validate OOF/fold stability/blend behavior and submission CSV format locally.
 - Submit only when the candidate beats or usefully diversifies the current best.
+
+## 2026-05-13 Two-Submission Cycle
+
+0.89306 -> 0.89269 -> 0.89262 (no best improvement)
+
+Pre-cycle checks:
+
+- UTC date/time at quota check: `2026-05-13`.
+- Remaining quota before cycle: `2/2`.
+- Remaining today’s submissions from new cycle:
+  - `run33run14_on12_w30_20_50_v4.csv` (2026-05-13 00:32:08.413000) `0.89262`.
+  - `run33run14_on12_w28_34_38_v4.csv` (2026-05-13 00:33:43.450000) `0.89269`.
+- Candidate verification:
+  - `A_main_run33run14_run12.csv` passes format checks and is exact duplicate of `run33run14_on12_w28_34_38_v4.csv`.
+  - `D_mix_run33run14_run12.csv` passes format checks and is exact duplicate of `run33run14_on12_w30_20_50_v4.csv`.
+  - `B_safe_run33run14_run12.csv`, `C_lean_run33run14_run12.csv`, `E_light_run33run14_run12.csv` pass format checks (not sent due zero remaining quota).
+
+Cycle 1:
+
+- File: `submissions/public/run33run14_on12_w30_20_50_v4.csv` (alias `D_mix_run33run14_run12.csv`)
+- Submitted: `2026-05-13 00:32:08.413000`.
+- Public score: `0.89262`.
+- Status: COMPLETE.
+- Rank: `1 / 11`.
+- Result: accepted, no improvement.
+
+Cycle 2:
+
+- File: `submissions/public/run33run14_on12_w28_34_38_v4.csv` (alias `A_main_run33run14_run12.csv`)
+- Submitted: `2026-05-13 00:33:43.450000`.
+- Public score: `0.89269`.
+- Status: COMPLETE.
+- Rank: `1 / 11`.
+- Result: accepted, no improvement.
+
+Conclusion:
+
+- Remaining quota after cycle: `0/2`.
+- Current best stays `0.89306` from `run33run14_on12_w10_10_v3.csv` (`1 / 11`).
 
 ## 2026-05-09 Quota Blocked Cycle + Next Step
 
