@@ -14,33 +14,52 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
-## 2026-05-14 Quota Blocked + Next 2-Submission Cycle Plan (pending reset)
+## 2026-05-14 Two-Submission Cycle
+
+- Pre-cycle quota check:
+  - UTC check time: `2026-05-14` (before submission round).
+  - Remaining quota at start: `2/2`.
+  - Current best before cycle: `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`, rank `1 / 11`.
+- Research watch before each experiment:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge` had no new notebook updates since previous cycle.
+  - Discussion/discourse access remained unavailable in this environment; no new high-confidence guidance from discussions.
+  - Candidate direction remained dual-channel diversity path around `run31` family.
+- Pre-submit validation (format + sanity for both files):
+  - `run31_exp_a_080_010_010_dual30p70.csv`: `id,Exited`, `110,023` rows, no NaN, aligned IDs, values in `[0,1]`.
+  - `run31_exp_a_080_010_010_dual50p50.csv`: `id,Exited`, `110,023` rows, no NaN, aligned IDs, values in `[0,1]`.
+  - Correlation/risk check: both remain less coupled to strong overfit patterns than run33-heavy baseline and kept local stability checks.
+
+Cycle 1:
+
+- File: `submissions/public/run31_exp_a_080_010_010_dual30p70.csv`
+- Submitted: `2026-05-14 02:08:19.357000`.
+- Public score: `0.89281`.
+- Status: COMPLETE.
+- Rank: `1 / 11`.
+- Result: no improvement.
+
+Cycle 2:
+
+- File: `submissions/public/run31_exp_a_080_010_010_dual50p50.csv`
+- Submitted: `2026-05-14 02:16:12.650000`.
+- Public score: `0.89281`.
+- Status: COMPLETE.
+- Rank: `1 / 11`.
+- Result: no improvement.
+
+Conclusion:
+
+- Remaining quota after cycle: `0/2`.
+- Current best remains `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv` (`1 / 11`).
+- Planned next hypotheses: `run31_exp_b_097_001_002_dual30p70.csv`, `run31_exp_b_097_001_002_dual50p50.csv`, and `run32_tempT*` calibrations if next reset opens.
+
+## 2026-05-14 Quota Blocked + Next 2-Submission Cycle (historical pre-reset)
 
 - UTC check time: `2026-05-13` (late)
-- Remaining quota today: `0/2`
-- Public leaderboard best remains:
-  - `run33run14_on12_w10_10_v3.csv` at `0.89306` (rank `1 / 11`).
-- Public notebook scan status (`kaggle kernels list`) unchanged, no obvious new public strategy since last scan.
-- Subagent research directions returned:
-  - run31 dual-channel candidates to reduce overfit risk:
-    - `run31_exp_a_080_010_010_dual30p70.csv`  
-    - `run31_exp_a_080_010_010_dual50p50.csv`  
-    - `run31_exp_b_097_001_002_dual30p70.csv`  
-    - `run31_exp_b_097_001_002_dual50p50.csv`
-  - Existing safe 3-way weighted family:
-    - `B_safe_run33run14_run12.csv` (0.20/0.15/0.65)  
-    - `C_lean_run33run14_run12.csv` (0.35/0.10/0.55)  
-    - `E_light_run33run14_run12.csv` (0.16/0.24/0.60)  
-    - `A_main_run33run14_run12.csv` (0.28/0.34/0.38)
-  - Temperature control on `run32` variants:
-    - `run32_tempT0_8.csv`
-    - `run32_tempT1_0.csv`
-    - `run32_tempT1_2.csv`
-- Local validation done on new files before queue:
-  - `run31_exp_*_dual*.csv` row count `110023`, id aligned, values in `[0,1]`, no NaN.
-- Pending submission queue for next reset (exactly 2 submissions):
-  1) `run31_exp_a_080_010_010_dual30p70.csv`
-  2) `run31_exp_a_080_010_010_dual50p50.csv`
+- Remaining quota today at that point: `0/2`.
+- Planned queue from that state:
+  - `run31_exp_a_080_010_010_dual30p70.csv`
+  - `run31_exp_a_080_010_010_dual50p50.csv`
 
 ## Loop Checklist
 
