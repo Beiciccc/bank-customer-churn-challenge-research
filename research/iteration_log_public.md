@@ -53,6 +53,41 @@ Conclusion:
 - Current best remains `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv` (`1 / 11`).
 - Planned next hypotheses: `run31_exp_b_097_001_002_dual30p70.csv`, `run31_exp_b_097_001_002_dual50p50.csv`, and `run32_tempT*` calibrations if next reset opens.
 
+## 2026-05-15 Two-Submission Cycle (pre-collected from submission engine)
+
+- Pre-cycle quota check at UTC reset:
+  - Remaining quota at cycle start: `2/2` (confirmed by two completed entries now present in Kaggle submission list for 2026-05-15).
+- Public-code scan before submission:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge` unchanged from previous cycles.
+  - Discussion endpoint in this environment remained unusable for direct harvest.
+- Candidate validation prior to submission:
+  - `run31_exp_b_097_001_002_dual50p50.csv`: `id,Exited`, `110,023` rows, aligned IDs, no NaN, in-range.
+  - `run31_exp_b_097_001_002_dual30p70.csv`: `id,Exited`, `110,023` rows, aligned IDs, no NaN, in-range.
+
+Cycle 1:
+
+- File: `submissions/public/run31_exp_b_097_001_002_dual50p50.csv`
+- Submitted: `2026-05-15 02:31:46.697000`.
+- Public score: `0.89293`.
+- Status: COMPLETE.
+- Rank: `1 / 11`.
+- Result: accepted, no best improvement.
+
+Cycle 2:
+
+- File: `submissions/public/run31_exp_b_097_001_002_dual30p70.csv`
+- Submitted: `2026-05-15 02:32:10.123000`.
+- Public score: `0.89293`.
+- Status: COMPLETE.
+- Rank: `1 / 11`.
+- Result: accepted, no best improvement.
+
+Conclusion:
+
+- Daily quota after cycle: `0/2`.
+- Current best remains `0.89306` from `run33run14_on12_w10_10_v3.csv` (best unchanged).
+- Next planned direction: evaluate calibrated `run32_tempT*` blends and any stable `run31_exp_b` perturbation that materially alters correlation structure.
+
 ## 2026-05-14 Quota Blocked + Next 2-Submission Cycle (historical pre-reset)
 
 - UTC check time: `2026-05-13` (late)

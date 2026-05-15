@@ -50,6 +50,40 @@ Conclusion:
 - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306` (`1 / 11`).
 - Next candidate family retained for future loop: `run31_exp_b_097_001_002_*`, then `run32_tempT` calibrations if stable.
 
+## 2026-05-15 Two-Submission Cycle
+
+- Quota and starting state:
+  - Starting remaining quota: `2/2` (two entries from this date now complete in Kaggle submission list).
+- Public-code review:
+  - No public notebook refresh since prior scan.
+  - Discussion read path still unavailable from environment.
+- Candidate checks before submit:
+  - `run31_exp_b_097_001_002_dual50p50.csv`: `id,Exited`, `110,023` rows, aligned IDs, no NaN, values in `[0,1]`.
+  - `run31_exp_b_097_001_002_dual30p70.csv`: `id,Exited`, `110,023` rows, aligned IDs, no NaN, values in `[0,1]`.
+
+Cycle 1:
+
+- File: `submissions/public/run31_exp_b_097_001_002_dual50p50.csv`
+- Submitted: `2026-05-15 02:31:46.697000`.
+- Public score: `0.89293`.
+- Status: COMPLETE.
+- Rank after submission: `1 / 11`.
+- Result: accepted, no best improvement.
+
+Cycle 2:
+
+- File: `submissions/public/run31_exp_b_097_001_002_dual30p70.csv`
+- Submitted: `2026-05-15 02:32:10.123000`.
+- Public score: `0.89293`.
+- Status: COMPLETE.
+- Rank after submission: `1 / 11`.
+- Result: accepted, no best improvement.
+
+Conclusion:
+
+- Remaining quota after cycle: `0/2`.
+- Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+
 ## 2026-05-14 Quota Blocked + Next 2-Submission Cycle (historical pre-reset)
 
 - UTC check time: `2026-05-13` (late in day).
