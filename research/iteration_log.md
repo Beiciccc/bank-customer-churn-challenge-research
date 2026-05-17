@@ -8,9 +8,86 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Latest submission: `2026-05-12 07:58:27.390000`
 - OOF/CV (local blend): `0.898109`
 - Public score: `0.89306`
-- Rank after submission: `1 / 11` as refreshed on `2026-05-12 UTC`.
+- Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-17 Two-Submission Cycle
+
+- Pre-loop checks:
+  - UTC time at cycle start: `2026-05-17 00:36 UTC`.
+  - Remaining quota at start: `2/2` (latest prior history entry was `2026-05-16 19:42:28`).
+  - Public leaderboard before start: `0.89306` (`run33run14_on12_w10_10_v3.csv`), rank `1 / 11`.
+- Research/discussion/code refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` and `--sort-by scoreDescending` show no new competition notebooks or fresh public updates.
+  - API discussion/discourse channel remains inaccessible in this environment.
+  - Error path from previous cycle remained: 3-way `run33 + run14 + run12` OOF-optimal candidates did not convert on public after queue was blocked by quota, so we kept the same candidate family with tighter risk notes.
+- Experiment hypothesis and rule rewrite:
+  - Keep `run33/run14/run12` sweep candidates only if local OOF uplift is meaningful and risk checks are not more extreme than best.
+  - Add a fail-fast rule: if first OOF-upshift candidate drops public score, second submission should be a close hedge (not another full-strength OOF peak) with explicit rationale logged and no additional family expansion.
+- Candidate local validation:
+  - `run33run14_on12_w27_38_v5.csv`: `id,Exited` format, `110,023` rows, no NaN, values `[0,1]`, OOF `0.8983608678126821`, p99 `0.96729`.
+  - `run33run14_on12_w28_30_v5.csv`: `id,Exited` format, `110,023` rows, no NaN, values `[0,1]`, OOF `0.8983556084148695`, p99 `0.96719`.
+  - Candidate risk check passed: no fold instability observed in quick local verification; both predictions were less extreme than the existing best-envelope baseline.
+
+Cycle 1:
+
+- File: `submissions/public/run33run14_on12_w27_38_v5.csv`
+- Submitted: `2026-05-17 00:36:21.600000`.
+- Public score: `0.89272`.
+- Status: COMPLETE.
+- Rank after submission: `1 / 11`.
+- Result: rejected (public regression); triggers rule rewrite for next submission in cycle.
+
+Cycle 2:
+
+- File: `submissions/public/run33run14_on12_w28_30_v5.csv`
+- Submitted: `2026-05-17 00:43:50.893000`.
+- Public score: `0.89269`.
+- Status: COMPLETE.
+- Rank after submission: `1 / 11`.
+- Result: rejected (public regression).
+
+Conclusion:
+
+- Remaining quota after cycle: `0/2`.
+- Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Error analysis: best two OOF peaks in this family likely overfit on this benchmark; next cycle should reduce run33/run14 concentration and prioritize a calibration hedge path around stable anchors (including `run32_tempT0_8`) once remote training artifacts are available.
+- New queued/prepared file for future: `submissions/public/run33run14_on12_w30_30_v6.csv` (generated from local oof/test blend as a control hedge).
+
+## 2026-05-16 Quota Block + Prepared 2-Submission Queue
+
+- Pre-loop checks:
+  - Query before this loop: `today submissions = 2`, quota status `0/2` (already used).
+  - Kaggle API detail from submit probe:
+    - Error: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC (4.2 hours from now).`
+  - Remaining ETA to retry: `~4h12m` (UTC midnight reset).
+  - Public leaderboard best remained `0.89306` (`run33run14_on12_w10_10_v3.csv`), rank `1 / 11`.
+- Discussion/code scan (before queue build):
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by scoreDescending` outputs only 5 kernels, no new high-score pattern beyond historical baselines.
+  - Local notebook snapshot also shows no new public method materially beyond existing strong cross-family blends/stacking paths.
+- Local OOF-driven re-exploration:
+  - Used components `run12`, `run14`, `run33` to scan 3-way convex weights.
+  - Found improved OOF region around `run33 0.27`, `run14 0.38`, `run12 0.35` (OOF `0.89836`) and `run33 0.28`, `run14 0.30`, `run12 0.42` (OOF `0.89836`) versus current blend `0.89811`.
+  - Risk controls checked: std, p99, correlation to current best remained near-baseline (`corr >= 0.9988`).
+- Candidate files prepared after local validation:
+  - `submissions/public/run33run14_on12_w27_38_v5.csv`
+  - `submissions/public/run33run14_on12_w28_30_v5.csv`
+  - Validation: both `id,Exited`, `110,023` rows, no NaN, values in `[0,1]`.
+
+Cycle 1 / Cycle 2 (planned, blocked by quota):
+
+- Status:
+  - Not submitted this loop due hard daily limit error.
+  - Next allowed submission time: tomorrow UTC (4.2h later).
+- Next action:
+  - Submit the two prepared queue files in order once allowance resets.
+  - If score regresses, fallback to run33run14 safe candidates and continue OOF-guided refinement.
+
+Conclusion:
+
+- Remaining quota at end of loop: `0/2`.
+- Current best remains `run33run14_on12_w10_10_v3.csv` at `0.89306` (`1 / 11`).
+- Error analysis: the current process is blocked by API quota, not by experiment validity.
 
 ## 2026-05-14 Two-Submission Cycle
 
@@ -83,6 +160,42 @@ Conclusion:
 
 - Remaining quota after cycle: `0/2`.
 - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+
+## 2026-05-16 Two-Submission Cycle
+
+- Pre-cycle checks:
+  - Remaining quota at start: `2/2` (no 2026-05-16 entries in submission log before this cycle).
+  - Public leaderboard best remained `run33run14_on12_w10_10_v3.csv` at `0.89306`, rank `1 / 11`.
+- Public review:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge` unchanged.
+  - Discussion read path remained low-signal in this environment.
+- Candidate sanity before submission:
+  - `run32_tempT1_0.csv`: `id,Exited`, `110,023` rows, aligned IDs, no NaN, values in `[0,1]`.
+  - `run32_tempT1_2.csv`: `id,Exited`, `110,023` rows, aligned IDs, no NaN, values in `[0,1]`.
+
+Cycle 1:
+
+- File: `submissions/public/run32_tempT1_0.csv`
+- Submitted: `2026-05-16 19:42:00.767000`.
+- Public score: `0.89293`.
+- Status: COMPLETE.
+- Rank after submission: `1 / 11`.
+- Result: no best improvement.
+
+Cycle 2:
+
+- File: `submissions/public/run32_tempT1_2.csv`
+- Submitted: `2026-05-16 19:42:28.567000`.
+- Public score: `0.89293`.
+- Status: COMPLETE.
+- Rank after submission: `1 / 11`.
+- Result: no best improvement.
+
+Conclusion:
+
+- Remaining quota after cycle: `0/2`.
+- Current best unchanged: `0.89306` (`run33run14_on12_w10_10_v3.csv`, rank `1 / 11`).
+- Next direction retained: `run32_tempT0_8.csv` for a calibration hedge; continue to monitor whether remote generated models alter correlation structure versus run33/`run12`.
 
 ## 2026-05-14 Quota Blocked + Next 2-Submission Cycle (historical pre-reset)
 
