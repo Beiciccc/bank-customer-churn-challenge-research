@@ -11,6 +11,41 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-18 Two-Submission Cycle
+
+- Pre-loop checks:
+  - UTC time at cycle start: `2026-05-18 04:53 UTC`.
+  - Remaining quota at start: `2/2`.
+  - Public leaderboard before cycle: `0.89306` (`run33run14_on12_w10_10_v3.csv`), rank `1 / 11`.
+- Research refresh:
+  - `kaggle kernels list ... --sort-by dateRun` unchanged since 2026-05-07.
+  - No fresh Kaggle discussion text was extractable in current environment.
+- Candidate prep:
+  - `run33run14_on12_w30_30_v6.csv` generated from OOF/test blends:
+    - composition: `0.3 run33_xgb_all_s202 + 0.3 run14 + 0.4 run12`
+    - local OOF proxy: `0.898352873`
+    - test mean/std/p99: `0.21323/0.27098/0.96659`.
+  - `run33run14_on12_w30_30_v6_platt.csv` produced by Platt fit on candidate OOF:
+    - OOF AUC unchanged.
+    - test mean/std/p99: `0.21355/0.27324/0.94424`.
+- Gate checks (both):
+  - `id,Exited` format.
+  - `110,023` rows.
+  - IDs aligned to sample submission.
+  - finite predictions in `[0,1]`.
+- Cycle 1:
+  - File: `run33run14_on12_w30_30_v6.csv`
+  - Submitted: `2026-05-18 04:53:54.827000`.
+  - Public score: `0.89262` (regressed).
+- Cycle 2:
+  - File: `run33run14_on12_w30_30_v6_platt.csv`
+  - Submitted: `2026-05-18 04:54:46.043000`.
+  - Public score: `0.89262` (regressed).
+- Conclusion:
+  - Remaining quota after cycle: `0/2`.
+  - Current best unchanged at `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - next cycle should prioritize a new remote GPU axis (different feature construction / calibration-aware stacking) before more score-sensitive raw perturbations.
+
 ## 2026-05-17 Two-Submission Cycle
 
 - Pre-loop checks:

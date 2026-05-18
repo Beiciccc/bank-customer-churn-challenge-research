@@ -4,6 +4,7 @@ Checked on 2026-04-26.
 
 ## Competition Pages
 
+- Checked on `2026-05-18`: no new high-signal public code beyond existing high-level baselines was observed. `wangleboro/churn-prediction-gbdt` remains the only notable notebook update, but its code is unchanged conceptually from earlier and still dominated by simple tree-ensemble baselines.
 - Evaluation: ROC AUC on predicted `Exited` probability.
 - Data: competition train/test were generated from a deep learning model trained on an original Bank Customer Churn Prediction dataset; original public data is explicitly allowed.
 - Rules: public external data is allowed when available to all competitors at no cost.

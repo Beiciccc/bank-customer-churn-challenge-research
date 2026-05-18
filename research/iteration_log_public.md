@@ -14,6 +14,44 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-18 Two-Submission Cycle
+
+- Pre-cycle checks:
+  - UTC check time at cycle start: `2026-05-18 04:53 UTC`.
+  - Remaining quota at start: `2/2` (`kaggle competitions submissions` had no `2026-05-18` records).
+  - Public leaderboard before cycle: `0.89306` (`run33run14_on12_w10_10_v3.csv`), rank `1 / 11`.
+- Public-code and discussion refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged; `wangleboro/churn-prediction-gbdt` still last runs 2026-05-07.
+  - No newly readable Kaggle discussion content from available API endpoints.
+- Experiment hypothesis:
+  - 3-way `run33/run14/run12` OOF peaks still look brittle publicly.
+  - Run calibrated hedge candidate instead of another raw 3-way peak:
+    - Candidate A: `run33run14_on12_w30_30_v6.csv` (`0.3*run33_xgb_all_s202 + 0.3*run14 + 0.4*run12`).
+    - Candidate B: `run33run14_on12_w30_30_v6_platt.csv` (Platt calibration fit on Candidate A OOF to reduce score-space extremity).
+- Validation before submit:
+  - `id,Exited` format, `110,023` rows, aligned sample IDs, finite predictions in `[0,1]` for both candidates.
+  - Candidate A test envelope: mean `0.21323`, std `0.27098`, p99 `0.96659`.
+  - Candidate B test envelope: mean `0.21355`, std `0.27324`, p99 `0.94424`.
+  - Candidate A local OOF proxy computed from source OOF arrays: `0.898352873`.
+  - Candidate B OOF proxy `0.898352873` (monotonic transform preserved OOF).
+- Cycle 1:
+  - File: `run33run14_on12_w30_30_v6.csv`
+  - Submitted: `2026-05-18 04:53:54.827000`.
+  - Public score: `0.89262`.
+  - Status: FAILED (public regression).
+  - Error note: still overfit-sensitive under this 3-way raw probability pattern.
+- Cycle 2:
+  - File: `run33run14_on12_w30_30_v6_platt.csv`
+  - Submitted: `2026-05-18 04:54:46.043000`.
+  - Public score: `0.89262`.
+  - Status: FAILED (public regression).
+- Conclusion:
+  - Remaining quota after cycle: `0/2`.
+  - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`, rank `1 / 11`.
+  - Next direction:
+    - pause raw `run33/run14/run12` perturbations until a remote GPU experiment with a distinct feature axis or stack/meta layer is available;
+    - keep Platt/rank calibration in the pre-check list for future hedge candidates.
+
 ## 2026-05-17 Two-Submission Cycle
 
 - Pre-cycle checks:
