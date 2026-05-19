@@ -14,6 +14,69 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-19 Two-Submission Cycle
+
+- Pre-loop checks at 2026-05-19 02:32 BST / 01:32 UTC:
+  - `kaggle competitions submissions` showed no `2026-05-19` entries; inferred start-of-day remaining quota `2/2`.
+  - Public leaderboard baseline before cycle remained `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`, rank `1 / 11`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged from prior checks; no new public notebooks with visible new strategies.
+- Public/discussion research:
+  - Web-facing discussion pages returned anti-forgery/blocked responses in this environment, so no extractable new forum signal.
+  - No new high-score public notebook refresh since the last checkpoint.
+- Candidate validation before submit:
+  - `run34_mix34_14_33_30_40_30_v1.csv`: format checked (`id,Exited`), 110,023 rows, no NaN, predictions in `[0, 1]`, aligned IDs.
+  - `run34_run14_run33_run13_40_30_30_v1.csv`: format checked (`id,Exited`), 110,023 rows, no NaN, predictions in `[0, 1]`, aligned IDs.
+- Cycle 1:
+  - File: `submissions/public/run34_mix34_14_33_30_40_30_v1.csv`
+  - Submitted: `2026-05-19 02:32:57.747000`.
+  - Public score: `0.89261`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+  - Error/analysis note: score dropped after adding the GPU run14/33-heavy hedge despite the higher OOF proxy, indicating remaining public overfitting in this direction.
+- Cycle 2:
+  - File: `submissions/public/run34_run14_run33_run13_40_30_30_v1.csv`
+  - Submitted: `2026-05-19 02:33:26.097000`.
+  - Public score: `0.89257`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+  - Error/analysis note: 3-way `run14/run33/run13` also moved opposite on public and failed to recover the benchmark.
+- Cycle result:
+  - Remaining quota after cycle: `0/2`.
+  - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - Next direction:
+    - continue with lower-correlation hedge routes only (stronger rank-based ensembling/temperature control),
+    - test calibrated blends around `run13/run14` while keeping run33 contribution below a new cap,
+    - prioritize remote GPU experiments on orthogonal model families before mixing additional run33-heavy weights.
+
+
+## 2026-05-18 Follow-up: quota block & queued candidates
+
+- Pre-loop checks at 2026-05-18 18:10 BST / 17:10 UTC:
+  - Kaggle API `kaggle competitions submissions` shows latest two entries are `run33run14_on12_w30_30_v6*.csv`; remaining quota now `0/2`.
+  - Public best remains `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`, rank 1).
+- Public/noise refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged (only the same 5 notebooks); no new solution code signal found.
+  - Pulled `wangleboro/churn-prediction-gbdt` for comparison; still baseline 3-model GBDT/ensemble, no new high-score stack trick.
+- Next candidate experiment (local OOF validation only, no submission yet):
+  - `run14 40% + run33_xgb_all 30% + run13 30%` (`run34_run14_run33_run13_40_30_30_v1.csv`)
+    - OOF AUC proxy: `0.8983648366` (higher than prior blend family).
+    - test mean/std/p99: `0.212875/0.270618/0.966316`.
+  - `run14 65% + run33_xgb_all 35%` (`run34_run14_run33_65_35.csv`)
+    - OOF AUC proxy: `0.8982237095`, mean/std/p99: `0.213334/0.270863/0.966293`.
+  - New remote GPU sweep (`run34_cat_s2718_d6_lr003`) produced model OOF `0.8973838765` and a higher-scoring 3-way hedge:
+    - `30% run34_cat_s2718_d6_lr003 + 40% run14 + 30% run33_xgb_all` (`run34_mix34_14_33_30_40_30_v1.csv`)
+    - OOF AUC proxy: `0.8983911746`
+    - test mean/std/p99: `0.213183/0.270791/0.966272`.
+    - currently best local OOF proxy among checked hedge candidates in this pause window.
+  - Isotonic calibration on full OOF (`run34_run14_run33_run13_40_30_30_v1_isotonic.csv`) raised internal OOF AUC to `0.8986291654` but is high-variance by design;
+    5-fold OOF-calibrated variant (`..._isotonic_cv`) dropped to `0.8979918482`.
+- Queue for first resume cycle:
+  1) `run34_mix34_14_33_30_40_30_v1.csv`
+  2) `run34_run14_run33_run13_40_30_30_v1.csv`
+  3) `run34_run14_run33_65_35.csv`
+  (calibration variants kept as backups)
+- All above files are synced to `C:/Users/Kun/Bank Customer Churn Challenge/submissions/public` and ready for submission once quota resets.
+
 ## 2026-05-18 Two-Submission Cycle
 
 - Pre-cycle checks:
