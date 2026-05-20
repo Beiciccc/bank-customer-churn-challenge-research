@@ -14,6 +14,42 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-20 Two-Submission Cycle
+
+- Pre-loop checks at 2026-05-20 00:51 BST / 23:51 UTC:
+  - `kaggle competitions submissions` showed no `2026-05-20` entries at loop start; inferred remaining quota `2/2`.
+  - Public baseline before loop remained `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`, rank `1 / 11`.
+- Public-code and discussion refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged; no new high-score notebooks.
+  - Discussion scrape remains unavailable in this environment due anti-forgery/anti-bot checks.
+- Experiment direction before submission:
+  - After two consecutive 2026-05-19 regressions, we removed direct 40/30/30 raw/strongly monotonic variants from first tier.
+  - Cycle plan: conservative 65/35 run14+run33 blend first, then CV-calibrated 40/30/30 variant (run13/calibration) only.
+- Candidate validation:
+  - `run34_run14_run33_65_35.csv`: `id,Exited`, `110,023` rows, no NaN, predictions in `[0,1]`, IDs aligned.
+  - `run34_run14_run33_run13_40_30_30_v1_isotonic_cv.csv`: `id,Exited`, `110,023` rows, no NaN, predictions in `[0,1]`, IDs aligned.
+- Cycle 1:
+  - File: `submissions/public/run34_run14_run33_65_35.csv`
+  - Submitted: `2026-05-20 00:51:11.363000`.
+  - Public score: `0.89241`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+  - Error/analysis note: Even the conservative 65/35 blend failed to recover the best score.
+- Cycle 2:
+  - File: `submissions/public/run34_run14_run33_run13_40_30_30_v1_isotonic_cv.csv`
+  - Submitted: `2026-05-20 00:51:32.603000`.
+  - Public score: `0.89258`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+  - Error/analysis note: CV-calibrated monotonic transformation lowered variance but remained publicly overfit-prone in this family.
+- Cycle result:
+  - Remaining quota after cycle: `0/2`.
+  - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - Next direction:
+    - stop additional `run13/run14/run33` linear/blended variants unless backed by new OOF-generation;
+    - prioritize orthogonal GPU generation (different model architecture / meta model) before any further weighting shifts around this family.
+
+
 ## 2026-05-19 Two-Submission Cycle
 
 - Pre-loop checks at 2026-05-19 02:32 BST / 01:32 UTC:
