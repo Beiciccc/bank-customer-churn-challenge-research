@@ -50,6 +50,43 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
     - prioritize orthogonal GPU generation (different model architecture / meta model) before any further weighting shifts around this family.
 
 
+## 2026-05-21 Two-Submission Cycle
+
+- Pre-loop checks at 2026-05-21 02:38 BST / 01:38 UTC:
+  - `kaggle competitions submissions` showed no `2026-05-21` entries; inferred remaining quota `2/2`.
+  - Public leaderboard baseline before cycle remained `0.89306` (`run33run14_on12_w10_10_v3.csv`), rank `1 / 11`.
+- Public-code and discussion refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` still unchanged (`wangleboro/churn-prediction-gbdt` latest from 2026-05-07).
+  - Discussion endpoints remained non-actionable in this environment (anti-forgery/blocked responses), so no reliable new forum signal.
+- Research/experiment direction before submission:
+  - Since previous run13/14/33-heavy families remained unstable, I shifted to a rank-diverse 4-model family using the local orthogonal `run34_cat_s2718_d6_lr003` OOF:
+    - Sweep over `run34_cat + run13 + run14 + run33` showed top OOF region around:
+      - `25% cat + 20% run13 + 30% run14 + 25% run33` (`0.8984434`)
+      - `30% cat + 20% run13 + 25% run14 + 25% run33` (`0.8984369`)
+  - Local sanity checks confirmed `id`/format integrity and `[0,1]` probability bounds for both candidates.
+- Cycle 1:
+  - File: `submissions/public/run34_cat13_14_33_25_20_30_25_v1.csv`
+  - Submitted: `2026-05-21 02:38:44.630000`.
+  - Public score: `0.89276`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+  - Error note: this 4-model linear OOF-updated direction still overfit on this leaderboard split.
+- Cycle 2:
+  - File: `submissions/public/run34_cat13_14_33_30_20_25_25_v1.csv`
+  - Submitted: `2026-05-21 02:39:05.790000`.
+  - Public score: `0.89276`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+  - Error note: near-tie to cycle1, confirming limited public gain from simple weight perturbation in this family.
+- Cycle result:
+  - Remaining quota after cycle: `0/2`.
+  - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - Next direction:
+    - convert this 4-model blend into a second-level meta/stacking route (out-of-fold meta learner) to break the observed overfit mode,
+    - prioritize generation of a new non-tree signal on GPU before further linear blend experiments,
+    - keep these 4-model candidates as high-level priors for calibration/rank variants.
+
+
 ## 2026-05-19 Two-Submission Cycle
 
 - Pre-loop checks at 2026-05-19 02:32 BST / 01:32 UTC:
