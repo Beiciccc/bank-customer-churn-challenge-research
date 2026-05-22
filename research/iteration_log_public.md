@@ -14,6 +14,49 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-22 Two-Submission Cycle
+
+- Pre-loop checks at 2026-05-22 01:10 UTC / 00:10 UTC:
+  - `kaggle competitions submissions` initially showed `2` submissions for `2026-05-22` at loop start? check: `0` before submission, hence inferred allowance `5/5`.
+  - Public baseline remained `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`, rank `1 / 11`.
+  - `research/pages/rules.txt` states general daily limit is `5` entries/day for this competition.
+- Public-code and discussion refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by voteCount -v` unchanged from earlier; no new high-score notebook with novel training logic since last loops.
+  - `kaggle kernels pull` of recent/top public notebooks confirms no materially new feature or stacking trick beyond standard GBDT/CatBoost/XGBoost blending.
+  - Discussion endpoints remain inaccessible / non-parseable in this environment.
+- Experiment direction before submission:
+  - OOF trend indicates this direction is still overfit-prone (`run13/14/33/run12` family), so I tried a second-level meta learner on single-model OOFs for possible non-linear correction while keeping submissions gated.
+  - Candidate validation candidates (CV-stacked logistic on first-level OOFs):
+    - `run35_stack_lr_5f` using `[run12, run13, run14, run33, run34]`
+    - `run35_stack_lr_6f` using `[run12, run13, run14, run33, run34, run09]`
+  - Both candidates passed local CSV format checks (`id,Exited`, 110,023 rows, no NaNs, values in `[0,1]`).
+  - Local OOF proxy:
+    - `run35_stack_lr_5f`: `0.898422`
+    - `run35_stack_lr_6f`: `0.898516` (top local among tested stackers)
+- Cycle 1:
+  - File: `submissions/public/run35_stack_lr_5f.csv`
+  - Submitted: `2026-05-22 01:10:02.383000`.
+  - Public score: `0.89270`.
+  - Status: COMPLETE.
+  - Result: FAILED (regression).
+- Cycle 2:
+  - File: `submissions/public/run35_stack_lr_6f.csv`
+  - Submitted: `2026-05-22 01:10:08.770000`.
+  - Public score: `0.89271`.
+  - Status: COMPLETE.
+  - Result: FAILED (slightly better than cycle1 but still below best).
+- Cycle result:
+  - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - Remaining quota after cycle: `3/5` (based on today's limit = 5 and 2 used).
+- Error analysis and rule update:
+  - Stacked models showed very high correlation with `run33` meta-OOF (`corr≈0.98`), indicating the stacker is mostly reweighting existing ranking rather than learning new ordering.
+  - Local OOF gains did not transfer to public (classic local-global drift), so risk gate tightened:
+    - Next-stack experiments should include at least one less-correlated base source (`run21`, `run22`, `run32`) by default,
+    - and any future stacker should prefer constrained regularized weights or pre-transformed/calibrated features to prevent overfitting signal collapse.
+- Planned next direction:
+  - Create targeted ranking-space/odds-space stack candidates with diversified feature sets (incl. `run21_all_cat_s202`, `run22_xgb_all_777`, `run32_s4e1_d5c1_s202`) and strong overfit checks before submit.
+  - Continue deep check of public kernels for calibration and feature cross-combination updates before next two-submit cycle.
+
 ## 2026-05-20 Two-Submission Cycle
 
 - Pre-loop checks at 2026-05-20 00:51 BST / 23:51 UTC:
