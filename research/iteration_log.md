@@ -11,6 +11,32 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-23 Submission Attempt Blocked (Quota 0/2, Research Re-scan + Queue Locked)
+
+- Pre-loop checks at `2026-05-23 07:42 UTC`:
+- `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` still shows exactly `2` entries for today (`run36_nonleak_55_25_10_10`, `run37_rank21_595_255_05_10`), so remaining daily allowance is `0/2`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun -v` still returns only:
+    - `wangleboro/churn-prediction-gbdt` as latest public notebook (`2026-05-07`),
+    - no materially new high-score kernel content.
+  - Discussion/Forum endpoints are still blocked in this environment (anti-forgery / parse failures), so no extra reliable thread signal can be pulled.
+  - `kaggle competitions pages -c binary-battle-ml-bank-customer-churn-challenge` still lists only known rule/evaluation pages, no new operational constraints visible.
+- Experiment direction before submit:
+  - Keep the existing low-variance queue to preserve generalization while probing for a better public update:
+    - Primary: `run40_rank14_33_70_30_r.csv` (low-rank-correlation hedge, OOF `0.8982097`, corr vs `run33` `0.84552`).
+    - Secondary: `run42_prob_25_35_40.csv` (OOF `0.8983578`, corr vs `run33` `0.99087`).
+  - This queue remains the best validated pair after local OOF/correlation checks on both current and prior iterations.
+- Local verification done before submission:
+  - `id,Exited` format and test-id alignment checked.
+  - Row count checked (`110,023`).
+  - `0 <= Exited <= 1`, no NaN/inf values.
+  - `run40_rank14_33_70_30_r` and `run42_prob_25_35_40` file integrity verified in both `submissions/` and `submissions/public/`.
+- Submission status:
+  - No API upload attempted; Kaggle still blocked by day-limit.
+  - Error message expected on any attempt: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`.
+- Error analysis / next action:
+  - Gate is not data/model-related.
+  - Next step is immediate auto-retry once UTC reset is reached (`~17.28h` estimated from `2026-05-23 06:42 UTC`), in queue order above.
+
 ## 2026-05-23 Submission Attempt (Quota Block)
 
 - Pre-loop checks at `2026-05-23 06:03 UTC`:
@@ -42,6 +68,29 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Error rewrite:
   - This cycle ended on **submission-day-limit** gating, not a content issue.
   - Next step: wait for UTC reset (`~18h` from now when this limit hit), then resubmit the queue starting with the lower-risk rank blend first.
+
+## 2026-05-23 Submission Attempt (Quota Block, GPU re-check + Candidate Prep)
+
+- Pre-loop check at `2026-05-23 06:43 UTC`:
+  - `kaggle competitions submissions` still shows exactly **2** entries for today (`run36_nonleak_55_25_10_10`, `run37_rank21_595_255_05_10`); submission path remains blocked by daily quota.
+  - Public baseline remains `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` still only exposes `wangleboro/churn-prediction-gbdt` as latest public notebook (2026-05-07), no new notebook-level ideas beyond previously captured.
+- Research and discussion:
+  - Remote Kaggle kernel pull still shows the same useful public pattern from `wangleboro/churn-prediction-gbdt` (e.g., `SingleProduct`, `CardButInactive`, `ZeroBalance`, `Balance_Per_Product`) with no new signal over last cycle.
+  - Public discussion feed/API endpoint remains non-reliable from this environment; no extractable new forum thread details.
+- Experiments run while blocked:
+  - Ran remote training for `run40_cat_native_202_regA` with CatBoost cat_native mode and 5-fold CV. (Due remote command mismatch, this specific run was CPU-mode and produced weak OOF; file generated and validated but not queued for submission).
+  - Synchronised new artifacts from remote to local (`models/run40_cat_native_202_regA_{oof,test}.npy`, `submissions/run40_cat_native_202_regA*.csv`, `reports/run40_cat_native_202_regA_report.json`).
+- Candidate preparation for post-reset (all format-valid and alignment-checked):
+  - `run40_pair14_33_w067_033_prob.csv` (`0.667*run14 + 0.333*run33`): local OOF `0.8982258`, corr vs best 0.99760.
+  - `run40_pair14_33_w060_040_prob.csv` (`0.600*run14 + 0.400*run33`): local OOF `0.8981989`, corr vs best 0.99728.
+  - `run40_rank14_33_70_30_r.csv` (`rank` blend 70/30): local OOF `0.898210`, corr vs best 0.85074.
+  - `run40_trip125_075_10_prob.csv` (`0.45*run12 + 0.30*run34 + 0.25*run33`): local OOF `0.8983447`, corr vs best 0.99915 (higher local gain, higher risk).
+- Submission result for this cycle:
+  - No submissions sent; queue prepared only.
+  - Block reason unchanged: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`.
+- Rule rewrite for next cycle:
+  - Keep first attempt on lower-risk rank-family candidate to reduce drift (`run40_rank14_33_70_30_r.csv`) and use one probability-family candidate second only if first does not materially worsen global behavior.
 
 ## 2026-05-23 Submission Attempt Blocked (2 candidates)
 

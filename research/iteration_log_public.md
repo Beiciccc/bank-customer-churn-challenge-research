@@ -14,6 +14,26 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-23 Submission Attempt Blocked (Quota 0/2, Research Re-scan + Queue Locked)
+
+- Pre-loop checks at `2026-05-23 07:42 UTC`:
+  - `kaggle competitions submissions` confirms **2** entries for today, so quota is `0/2`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun -v` remains unchanged; latest active benchmark is `wangleboro/churn-prediction-gbdt` (`2026-05-07`), with no new candidate pattern.
+  - `kaggle competitions pages` returns the same core pages only (no changed public constraints surfaced).
+  - Discussion pages remain blocked in this environment by anti-forgery / 403-style access behavior (cannot extract fresh high-signal thread content).
+- Experiment direction and queue:
+  - Keep queue unchanged to preserve a controlled probe:
+    - Cycle-2 step 1: `run40_rank14_33_70_30_r.csv`.
+    - Cycle-2 step 2: `run42_prob_25_35_40.csv` if first step is not clearly regressive in score delta.
+  - These were selected from local OOF/correlation screens and are already mirrored to `submissions/public` and synced to remote.
+- Verification before submission:
+  - `id/Exited` format + test id alignment, no NaN/infinite values, all values in `[0,1]`, `110,023` rows.
+- Submission status:
+  - No submission request was accepted due daily allowance block (`Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`).
+- Error analysis:
+  - Submission is currently blocked by API allowance.
+  - Immediate next action: retry exactly at UTC reset window in the same two-candidate order and log post-submit deltas.
+
 ## 2026-05-23 Submission Attempt (Quota Block)
 
 - Pre-loop checks at `2026-05-23 06:03 UTC`:
@@ -39,12 +59,50 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
   - File: `run39_mix_72_12_08_08.csv`
   - Result: **BLOCKED before scoring**.
   - API message: same allowance block.
-- Result:
+  - Result:
   - No leaderboard update; public best remains `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
   - Daily allowance remaining now inferred as `0/2`.
 - Error rewrite:
   - This cycle ended on **submission-day-limit** gating, not a content issue.
   - Next step: wait for UTC reset (`~18h` from now when this limit hit), then resubmit the queue starting with the lower-risk rank blend first.
+
+## 2026-05-23 Submission Attempt (Quota Block, Experiment Queue Finalized)
+
+- Pre-loop checks at `2026-05-23 06:42 UTC`:
+  - `kaggle competitions submissions` confirms **2** entries for today (`run39_rank_hybrid...`, `run39_mix...`), so quota is still `0/2` and direct submit is blocked.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` still returns only the existing top kernels (`wangleboro/churn-prediction-gbdt` remains latest public update).
+  - Discussion feed/API pages remain unusable in this environment (403/parse failures).
+- Experiment direction before reset:
+  - Added a deterministic local sweep on `(run33, run14, run12, run34)` OOFs to pick one low-risk and one higher-omega candidate for the next two submissions:
+    - `run40_rank14_33_70_30_r.csv` (`rank` blend equivalent to approx `0.70*run14 + 0.30*run33`): local OOF proxy `0.898210`, corr with run33 `0.84552` (low drift-risk).
+    - `run42_prob_25_35_40.csv` (`0.25*run33 + 0.35*run14 + 0.40*run12`): local OOF proxy `0.898358`, corr with run33 `0.99087` (higher-risk, expected to be less stable).
+  - Both files pass hard validation on test set format (`id,Exited`, 110,023 rows, no NaN, in `[0,1]`, ID alignment).
+  - Current queue was mirrored to `submissions/public/` and synced to remote path `/C:/Users/Kun/Bank Customer Churn Challenge/submissions/public`.
+- Submission status:
+  - Still blocked: no submit executed in this cycle.
+- Rule update:
+  - First submission after reset should be `run40_rank14_33_70_30_r.csv`.
+  - Second submission should be `run42_prob_25_35_40.csv` only if first-step behavior appears acceptable; otherwise continue rank-style hedges and skip high-corr pair family.
+
+## 2026-05-23 Submission Attempt (Quota Block, Candidate Refresh)
+
+- Pre-loop checks at `2026-05-23 06:43 UTC`:
+  - `kaggle competitions submissions` remains capped at **2** for this date (`run36_nonleak_55_25_10_10`, `run37_rank21_595_255_05_10`).
+  - Public baseline is still `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged since last loop.
+- Research:
+  - Highest-signal public kernels still point to high-cardinality handling (`SingleProduct`, `CardButInactive`, `ZeroBalance`) but no new novel method since last cycle.
+  - Discussion/Forum endpoint still not parseable in this environment.
+- Experiment/refresh:
+  - Remote CatBoost fallback run `run40_cat_native_202_regA` finished successfully and was synced to local (`models/run40_cat_native_202_regA_{oof,test}.npy`, `submissions/run40_cat_native_202_regA*.csv`, report). Local CV score was weak for this variant (`0.888953`), so not queued as a public submission target.
+  - Candidate set updated after local validity checks:
+    - `run40_pair14_33_w067_033_prob.csv`: OOF `0.8982258`, corr vs best `0.99760`.
+    - `run40_pair14_33_w060_040_prob.csv`: OOF `0.8981989`, corr vs best `0.99728`.
+    - `run40_rank14_33_70_30_r.csv`: OOF `0.898210`, corr vs best `0.85074` (low order-rank correlation candidate).
+    - `run40_trip125_075_10_prob.csv`: OOF `0.8983447`, corr vs best `0.99915` (higher local but higher transfer-risk).
+- Submission status:
+  - No upload possible in this cycle (quota still blocks; same error message as above).
+  - Candidate queue retained for next UTC day.
 
 ## 2026-05-23 Submission Attempt Blocked (2 candidates)
 

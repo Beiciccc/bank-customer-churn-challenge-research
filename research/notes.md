@@ -9,6 +9,18 @@ Checked on 2026-04-26.
 - Data: competition train/test were generated from a deep learning model trained on an original Bank Customer Churn Prediction dataset; original public data is explicitly allowed.
 - Rules: public external data is allowed when available to all competitors at no cost.
 
+## 2026-05-23 Execution Note (Quota 0/2)
+
+- `kaggle competitions submissions` is blocked at **2/2** for this date, so no new Kaggle upload is currently possible.
+- Rechecked `kaggle kernels` and `kaggle competitions pages`:
+  - No new high-signal notebook or public code change since the prior loop.
+  - No discoverable new discussion thread content in this environment (anti-forgery errors / inaccessible forum endpoints).
+- Experiment path retained for next retry:
+  - `run40_rank14_33_70_30_r.csv` as safer rank-space hedge.
+  - `run42_prob_25_35_40.csv` as controlled follow-up (higher OOF, higher corr risk).
+- ETA to reset: `~17.28h` from current `2026-05-23 06:42 UTC` check.
+- Both files remain validated in both local and remote workdirs.
+
 ## 2026-05-23 Execution Note
 
 - 2 new stack candidates were generated and validated locally:
@@ -37,6 +49,13 @@ Actionable experiment: add `cat_native` mode that leaves `CustomerId` and `Surna
   - `run39_rank_hybrid_87_05_00_08.csv` (rank-space hedge, lower correlation to current baseline, safer).
   - `run39_mix_72_12_08_08.csv` (higher OOF `0.90499` but high correlation, higher overfit risk).
 - Kaggle API create-submission block now explicitly confirms: allowance used up for the day; `Submission not allowed: your team has used its daily Submission allowance (2) today`.
+- Re-check at 2026-05-23 06:43 UTC:
+  - Public-kernel refresh still unchanged (`wangleboro/churn-prediction-gbdt` still top with no visible model-family jump).
+  - New candidate generation after local/OOF probing:
+    - `run40_pair14_33_w067_033_prob.csv` (OOF `0.8982258`, corr vs current best `0.99760`).
+    - `run40_rank14_33_70_30_r.csv` (OOF `0.898210`, corr vs current best `0.85074`, rank-space hedge).
+    - `run40_trip125_075_10_prob.csv` (OOF `0.8983447`, corr `0.99915`, high-risk/low-diversity).
+  - One fresh remote run (`run40_cat_native_202_regA`) was synced locally, but it produced CPU-only CatBoost with weak OOF (`0.888953`) and will not be submitted first.
 
 ## 2026-04-26 Experiments
 
