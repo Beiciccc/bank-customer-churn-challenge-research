@@ -9,6 +9,14 @@ Checked on 2026-04-26.
 - Data: competition train/test were generated from a deep learning model trained on an original Bank Customer Churn Prediction dataset; original public data is explicitly allowed.
 - Rules: public external data is allowed when available to all competitors at no cost.
 
+## 2026-05-23 Execution Note
+
+- 2 new stack candidates were generated and validated locally:
+  - `run38_stack_lr_5f_div_c0p1.csv` (5-feature logistic stack, C=0.1) with local OOF `0.8984406`.
+  - `run38_stack_lr_4f_div_c05.csv` (4-feature logistic stack, C=0.05) with local OOF `0.8984239`.
+- Both files passed format checks (`id` alignment, `[0,1]`, no NaNs).
+- Submission attempts were blocked by Kaggle API permission (`Permission 'competitions.participate' was denied`) before a new public score could be obtained.
+
 ## Current Competition Public Notebooks
 
 - Himanshu Dhiman and Payal Dhokane notebooks: simple 5-fold XGBoost, drop `id`, `CustomerId`, `Surname`, label encode `Geography/Gender`, add `Balance_Per_Product`.
@@ -20,6 +28,15 @@ Checked on 2026-04-26.
 The earlier Kaggle Playground S4E1 bank churn competition used the same source family. A public README summarizing the first-place discussion says the important point was to treat `CustomerId` and `Surname` as high-cardinality categorical variables and encode them correctly; it also says a single tuned CatBoost averaged over 20 folds was enough to win.
 
 Actionable experiment: add `cat_native` mode that leaves `CustomerId` and `Surname` raw for CatBoost ordered CTRs, while removing hand-made target/frequency encodings for those columns.
+
+## 2026-05-23 Quota Blocked Submission Queue
+
+- `kaggle competitions submissions` shows 2 entries for 2026-05-23 (this date quota usage reached `2/2`).
+- Current best remains `run33run14_on12_w10_10_v3.csv` (`0.89306`).
+- New local experiment queue prepared for next reset:
+  - `run39_rank_hybrid_87_05_00_08.csv` (rank-space hedge, lower correlation to current baseline, safer).
+  - `run39_mix_72_12_08_08.csv` (higher OOF `0.90499` but high correlation, higher overfit risk).
+- Kaggle API create-submission block now explicitly confirms: allowance used up for the day; `Submission not allowed: your team has used its daily Submission allowance (2) today`.
 
 ## 2026-04-26 Experiments
 

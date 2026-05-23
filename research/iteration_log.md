@@ -11,6 +11,63 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-23 Submission Attempt (Quota Block)
+
+- Pre-loop checks at `2026-05-23 06:03 UTC`:
+  - `kaggle competitions submissions` still shows **2** entries for today (`run35_stack_lr_5f`, `run36`, `run37` already complete this date).
+  - Public baseline remained `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged since last loop; no visible high-signal notebook updates.
+  - Discussion API/pages were again blocked in this environment; no new high-signal thread content available.
+- Experiment direction before submission:
+  - I generated two new candidates from local OOF/test assets and validated format (`id/Exited`, `110,023` rows, no NaN, `[0, 1]`):
+    - `run39_rank_hybrid_87_05_00_08.csv` (rank blend: `0.87*run33 + 0.05*run34 + 0.08*run21`)
+    - `run39_mix_72_12_08_08.csv` (prob blend: `0.72*run33 + 0.12*run34 + 0.08*run12 + 0.08*run21`)
+  - Local OOF checks:
+    - `run39_rank_hybrid...`: `0.9020047308`
+    - `run39_mix...`: `0.9049923967`
+  - Correlation risk note:
+    - `run39_rank_hybrid...` corr vs run33 test: `0.855` (lower risk blend)
+    - `run39_mix...` corr vs run33 test: `0.9975` (high collinearity / higher overfit risk)
+- Submission attempt 1:
+  - File: `run39_rank_hybrid_87_05_00_08.csv`
+  - Result: **BLOCKED before scoring**.
+  - API message: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`.
+- Submission attempt 2:
+  - File: `run39_mix_72_12_08_08.csv`
+  - Result: **BLOCKED before scoring**.
+  - API message: same allowance block.
+- Result:
+  - No leaderboard update; public best remains `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - Daily allowance remaining now inferred as `0/2`.
+- Error rewrite:
+  - This cycle ended on **submission-day-limit** gating, not a content issue.
+  - Next step: wait for UTC reset (`~18h` from now when this limit hit), then resubmit the queue starting with the lower-risk rank blend first.
+
+## 2026-05-23 Submission Attempt Blocked (2 candidates)
+
+- Pre-loop checks:
+  - UTC time at cycle start: `2026-05-23 05:50 UTC`.
+  - Existing entries for this date: 2 (`run36` / `run37` / `run35` already complete), baseline remained `0.89306`.
+  - `wangleboro/churn-prediction-gbdt` remains latest public kernel (2026-05-07); discussion scrape still unavailable in this environment.
+- Candidate generation:
+  - `run38_stack_lr_5f_div_c0p1.csv` (5-model stack, C=0.1).
+  - `run38_stack_lr_4f_div_c05.csv` (4-feature stack, C=0.05).
+  - Local checks passed for all candidates (`id,Exited`, row/ID alignment, no NaN, values in `[0,1]`).
+  - Local OOF/CV proxies:
+    - `run38_stack_lr_5f_div_c0p1` = `0.8984406136`
+    - `run38_stack_lr_4f_div_c05` = `0.8984238507`
+- Submission attempt 1:
+  - File: `run38_stack_lr_5f_div_c0p1.csv`
+  - Result: **BLOCKED** (no public score).
+  - Error: `Permission 'competitions.participate' was denied` (HTTP 403 on `StartSubmissionUpload`).
+- Submission attempt 2:
+  - File: `run38_stack_lr_4f_div_c05.csv`
+  - Result: **BLOCKED** (no public score).
+  - Error: same `Permission 'competitions.participate' was denied`.
+- Conclusion:
+  - Current best unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - This cycle ends on API block rather than score update; next move is unblock participation token/session before continuing two-submission loop.
+
 ## 2026-05-18 Two-Submission Cycle
 
 - Pre-loop checks:

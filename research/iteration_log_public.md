@@ -14,6 +14,66 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-23 Submission Attempt (Quota Block)
+
+- Pre-loop checks at `2026-05-23 06:03 UTC`:
+  - `kaggle competitions submissions` still shows **2** entries for today (`run35_stack_lr_5f`, `run36`, `run37` already complete this date).
+  - Public baseline remained `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` unchanged since last loop; no visible high-signal notebook updates.
+  - Discussion API/pages were again blocked in this environment; no new high-signal thread content available.
+- Experiment direction before submission:
+  - I generated two new candidates from local OOF/test assets and validated format (`id/Exited`, `110,023` rows, no NaN, `[0, 1]`):
+    - `run39_rank_hybrid_87_05_00_08.csv` (rank blend: `0.87*run33 + 0.05*run34 + 0.08*run21`)
+    - `run39_mix_72_12_08_08.csv` (prob blend: `0.72*run33 + 0.12*run34 + 0.08*run12 + 0.08*run21`)
+  - Local OOF checks:
+    - `run39_rank_hybrid...`: `0.9020047308`
+    - `run39_mix...`: `0.9049923967`
+  - Correlation risk note:
+    - `run39_rank_hybrid...` corr vs run33 test: `0.855` (lower risk blend)
+    - `run39_mix...` corr vs run33 test: `0.9975` (high collinearity / higher overfit risk)
+- Submission attempt 1:
+  - File: `run39_rank_hybrid_87_05_00_08.csv`
+  - Result: **BLOCKED before scoring**.
+  - API message: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`.
+- Submission attempt 2:
+  - File: `run39_mix_72_12_08_08.csv`
+  - Result: **BLOCKED before scoring**.
+  - API message: same allowance block.
+- Result:
+  - No leaderboard update; public best remains `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+  - Daily allowance remaining now inferred as `0/2`.
+- Error rewrite:
+  - This cycle ended on **submission-day-limit** gating, not a content issue.
+  - Next step: wait for UTC reset (`~18h` from now when this limit hit), then resubmit the queue starting with the lower-risk rank blend first.
+
+## 2026-05-23 Submission Attempt Blocked (2 candidates)
+
+- Pre-loop checks at 2026-05-23 05:50 UTC / 04:50 BST:
+  - `kaggle competitions submissions` shows 2 entries for today (`run35_stack_lr_6f` and `run36`/`run37` from this date).
+  - Public baseline remained `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun` and `voteCount` unchanged; no new high-score public code since 2026-05-07.
+  - Discussion endpoint still not extractable in this environment.
+- Experiment direction before submission:
+  - I generated constrained stacker candidates directly from local OOF/test sources to avoid run21 heavy leakage, using only current high-performing GPU-family sources:
+    - `run38_stack_lr_5f_div_c0p1.csv` (5-model logistic stack on run12/run13/run14/run33/run34, C=0.1).
+    - `run38_stack_lr_4f_div_c05.csv` (4-model logistic stack on run12/run13/run14/run33/run34, C=0.05).
+  - Both files were locally validated (`id,Exited`, `110,023` rows, no NaNs, values in `[0,1]`) and OOF checks passed before submission:
+    - `run38_stack_lr_5f_div_c0p1.csv` local OOF: `0.8984406136`.
+    - `run38_stack_lr_4f_div_c05.csv` local OOF: `0.8984238507`.
+- Cycle 1 (attempt):
+  - File: `submissions/public/run38_stack_lr_5f_div_c0p1.csv`
+  - Submission attempt result: **FAILED before scoring**.
+  - API response: `403 Client Error ... Permission 'competitions.participate' was denied` (StartSubmissionUpload).
+- Cycle 2 (attempt):
+  - File: `submissions/public/run38_stack_lr_4f_div_c05.csv`
+  - Submission attempt result: **FAILED before scoring**.
+  - API response: same `403 Permission 'competitions.participate' was denied`.
+- Result:
+  - No public score updates due upload gate; best remains `0.89306` on `run33run14_on12_w10_10_v3.csv`.
+- Error analysis and rule rewrite:
+  - This is not a submission-content validation error (format checks already passed), so the current blocker is API participation permission.
+  - Next-step rule: pause further API submissions until participation token/session is restored; once unblocked, first retry should be one conservative stack hedge (`run38_stack_lr_5f_div_c0p1`) followed by one orthogonal fallback.
+
 ## 2026-05-22 Two-Submission Cycle
 
 - Pre-loop checks at 2026-05-22 01:10 UTC / 00:10 UTC:
