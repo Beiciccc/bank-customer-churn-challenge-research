@@ -91,6 +91,10 @@ Decision:
 
 ## Current Queued Candidate
 
-- `run12_gpu_cat_seed_blend_10_11.csv`
-- OOF `0.897786`
-- Status: queued after Kaggle returned 400 on 2026-04-28, likely because the daily quota was exhausted.
+- `run40_rank14_33_70_30_r.csv`
+  - OOF `0.8982097`
+  - Low correlation hedge candidate (corr to run33 OOF ≈ `0.8455`).
+- `run42_prob_25_35_40.csv`
+  - OOF `0.8983578`
+  - Higher OOF candidate with higher correlation risk; used only as second step in retry queue.
+- Queue status: paused awaiting UTC quota reset.
