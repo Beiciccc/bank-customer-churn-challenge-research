@@ -9,16 +9,33 @@ Checked on 2026-04-26.
 - Data: competition train/test were generated from a deep learning model trained on an original Bank Customer Churn Prediction dataset; original public data is explicitly allowed.
 - Rules: public external data is allowed when available to all competitors at no cost.
 
-## 2026-05-23 Execution Note (Quota 0/2)
+## 2026-05-24 Research Note
 
-- `kaggle competitions submissions` is blocked at **2/2** for this date, so no new Kaggle upload is currently possible.
+- Public kernel refresh:
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` now shows latest `wangleboro/churn-prediction-gbdt` run time `2026-05-23 20:37:50`.
+  - `scoreDescending` ordering remains unchanged.
+  - Discussion endpoints still inaccessible in this environment (forum scrape failure), so no new external discussion signal available.
+- Extracted feature signals from latest notebook pull:
+  - `SingleProduct`, `CardButInactive`, `ZeroBalance`, `Balance_Per_Product`.
+  - surname features such as `Surname_prefix`, `Surname_len`, `Surname_freq`.
+- Cycle 2026-05-24 execution:
+  - `run40_rank14_33_70_30_r.csv` scored `0.89304` (regression).
+  - `run42_prob_25_35_40.csv` scored `0.89278` (further regression).
+  - Best remains `run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Next research direction:
+  - Rebuild feature extraction on a fresh GPU training pass using surname-derived engineered signals before any further large blend sweeps.
+  - Keep blend experiments conservative and risk-gated (rank-space / low-corr direction first).
+
+## 2026-05-23 Execution Note (Quota 0/2, Queue Hold)
+
+- `kaggle competitions submissions` is blocked at **2/2** for this date (`2026-05-23 07:47 UTC` check), so no new Kaggle upload is currently possible.
 - Rechecked `kaggle kernels` and `kaggle competitions pages`:
   - No new high-signal notebook or public code change since the prior loop.
   - No discoverable new discussion thread content in this environment (anti-forgery errors / inaccessible forum endpoints).
 - Experiment path retained for next retry:
   - `run40_rank14_33_70_30_r.csv` as safer rank-space hedge.
   - `run42_prob_25_35_40.csv` as controlled follow-up (higher OOF, higher corr risk).
-- ETA to reset: `~17.28h` from current `2026-05-23 06:42 UTC` check.
+- ETA to reset: `~17.11h` from `2026-05-23 07:47 UTC` check.
 - Both files remain validated in both local and remote workdirs.
 
 ## 2026-05-23 Execution Note

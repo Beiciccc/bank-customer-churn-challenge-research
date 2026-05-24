@@ -11,6 +11,68 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-24 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-24 03:19 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` showed `0` entries for `2026-05-24`, so quota start-of-cycle was `5/5`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` showed latest run:
+    - `wangleboro/churn-prediction-gbdt` updated at `2026-05-23 20:37:50.307000` (top activity).
+  - Discussion/forum channels remained inaccessible in this environment; no extra thread-level signal was usable.
+  - Candidate queue confirmed and validated:
+    - `run40_rank14_33_70_30_r.csv`
+    - `run42_prob_25_35_40.csv`
+    - both with correct schema (`id,Exited`), `110,023` rows, finite values in `[0,1]`, and ID alignment.
+
+Cycle 1:
+
+- File: `submissions/public/run40_rank14_33_70_30_r.csv`
+- Submitted: `2026-05-24 03:20:26.063000`.
+- Public score: `0.89304`.
+- Status: COMPLETE.
+- Result: FAILED (slightly worse than best by `-0.00002`).
+- Rule update: first hedge did not improve and exposed mild public drift; move to planned second hedge immediately.
+
+Cycle 2:
+
+- File: `submissions/public/run42_prob_25_35_40.csv`
+- Submitted: `2026-05-24 03:21:01.500000`.
+- Public score: `0.89278`.
+- Status: COMPLETE.
+- Result: FAILED (further regression).
+
+Cycle result:
+
+- Remaining quota at the end of day: `3/5` (today entries total `2`).
+- Current best remains unchanged:
+  - `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Next step:
+  - Revisit feature-space updates from `wangleboro/churn-prediction-gbdt` (`CardButInactive`, `ZeroBalance`, `SingleProduct`, surname-derived flags/length/frequency).
+  - Prioritize a new low-overfit candidate path with these features before additional probability/rank blends.
+
+## 2026-05-23 Submission Attempt Blocked (Quota 0/2, Wait + Re-scan + Queue Hold)
+
+- Pre-loop checks at `2026-05-23 07:47 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` shows exactly 2 entries today, so remaining allowance is `0/2`.
+  - Latest submissions today: `run36_nonleak_55_25_10_10`, `run37_rank21_595_255_05_10` (both COMPLETE).
+- Public code and discussion refresh:
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun -v` still returns top notebook `wangleboro/churn-prediction-gbdt`, last run `2026-05-07 20:38:58`.
+  - `kaggle kernels list --competition ... --sort-by scoreDescending -v` still unchanged top vote ranks.
+  - Forum/discussion endpoints still return anti-forgery/read failure in this environment; no actionable new thread signal.
+- Candidate experiment direction before reset:
+  - Queue remains unchanged:
+    - `run40_rank14_33_70_30_r.csv` (low-rank-corr hedge, OOF `0.8982097`, corr vs `run33` `0.84552`).
+    - `run42_prob_25_35_40.csv` (higher OOF `0.8983578`, higher corr vs `run33` `0.99087`).
+  - Validation still green for both files:
+    - `id,Exited` schema exact,
+    - `110,023` rows and test-id exact alignment,
+    - finite values in `[0,1]`, no NaN/inf.
+- Submission status:
+  - No submission action is legal today due quota block (`Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`).
+- Error analysis + next step:
+  - Blocking is quota-level only; not model/data related.
+  - ETA to UTC reset: `1031.67` minutes (`~17h11m`) from the current check.
+  - Next automatic cycle: retry in this exact order after reset, then log public score before deciding the third file (`run42_trip_25_30_45.csv`) if any risk rollback is needed.
+
 ## 2026-05-23 Submission Attempt Blocked (Quota 0/2, Research Re-scan + Queue Locked)
 
 - Pre-loop checks at `2026-05-23 07:42 UTC`:
@@ -31,8 +93,10 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
   - `0 <= Exited <= 1`, no NaN/inf values.
   - `run40_rank14_33_70_30_r` and `run42_prob_25_35_40` file integrity verified in both `submissions/` and `submissions/public/`.
 - Submission status:
-  - No API upload attempted; Kaggle still blocked by day-limit.
-  - Error message expected on any attempt: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`.
+  - Direct submit attempt was made on `run40_rank14_33_70_30_r.csv`; API response:
+    - `400 Client Error: Bad Request for url: https://api.kaggle.com/v1/competitions.CompetitionApiService/CreateSubmission`.
+  - No new entry appeared in `kaggle competitions submissions`, confirming blocked by day-limit.
+  - Historical block text remains: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`.
 - Error analysis / next action:
   - Gate is not data/model-related.
   - Next step is immediate auto-retry once UTC reset is reached (`~17.28h` estimated from `2026-05-23 06:42 UTC`), in queue order above.

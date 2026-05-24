@@ -14,6 +14,62 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-24 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-24 03:19 UTC`:
+  - `kaggle competitions submissions ... --csv` showed `0/5` used for `2026-05-24`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v`: latest active notebook remains `wangleboro/churn-prediction-gbdt` with run time `2026-05-23 20:37:50.307000`.
+  - `kaggle kernels list --competition ... --sort-by scoreDescending -v` ranking order unchanged.
+  - Discussion channels remained inaccessible (no forum scrape available in this environment).
+- Public-signal direction before submit:
+  - Pull and inspect of `wangleboro/churn-prediction-gbdt` confirmed continued use of interaction features:
+    - `SingleProduct`, `CardButInactive`, `ZeroBalance`, `Balance_Per_Product`,
+    - basic surname processing (`Surname_prefix`, `Surname_len`, `Surname_freq`).
+  - Queue unchanged and format-valid:
+    - `run40_rank14_33_70_30_r.csv`
+    - `run42_prob_25_35_40.csv`
+
+Cycle 1:
+
+- File: `run40_rank14_33_70_30_r.csv`
+- Submitted: `2026-05-24 03:20:26.063000`.
+- Public score: `0.89304`.
+- Status: COMPLETE.
+- Result: FAILED (below best, no public improvement).
+
+Cycle 2:
+
+- File: `run42_prob_25_35_40.csv`
+- Submitted: `2026-05-24 03:21:01.500000`.
+- Public score: `0.89278`.
+- Status: COMPLETE.
+- Result: FAILED (further below best).
+
+Cycle result:
+
+- Best remains unchanged at `0.89306` from `submissions/public/run33run14_on12_w10_10_v3.csv`.
+- Remaining quota for 2026-05-24 after two attempts: `3/5`.
+- Rule rewrite:
+  - Decrease blend-confidence on high-correlated probability combinations in this phase.
+  - Next experiments should prioritize additional low-overfit feature-axis changes (surname-derived handling and interaction flags), then re-test with conservative blends.
+
+## 2026-05-23 Submission Attempt Blocked (Quota 0/2, Refresh + Queue Freeze)
+
+- Pre-loop checks at `2026-05-23 07:47 UTC`:
+  - `kaggle competitions submissions ... --csv` confirms `2` entries for this date; remaining is `0/2`.
+  - Latest submissions for today: `run36_nonleak_55_25_10_10` and `run37_rank21_595_255_05_10` (both COMPLETE).
+- Public-signal refresh:
+  - `kaggle kernels list` in both `dateRun` and `scoreDescending` remains unchanged; latest active notebook remains `wangleboro/churn-prediction-gbdt` (`2026-05-07`).
+  - Discussion endpoints are still inaccessible from this environment (anti-forgery failure), so no reliable thread signal to pivot on.
+- Candidate queue/validation hold:
+  - `run40_rank14_33_70_30_r.csv` and `run42_prob_25_35_40.csv` remain the next two submissions, each format-validated (`id,Exited`, `110,023` rows, aligned ids, finite predictions in `[0,1]`).
+- Submission status:
+  - No legal upload possible (`Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC`).
+- Error analysis and next action:
+  - Limitation is quota-level, not content-level.
+  - ETA to reset: `~17h11m` (`2026-05-24 00:00:00 UTC`).
+  - Next retry should preserve candidate order and log public-score deltas immediately after each successful upload.
+
 ## 2026-05-23 Submission Attempt Blocked (Quota 0/2, Research Re-scan + Queue Locked)
 
 - Pre-loop checks at `2026-05-23 07:42 UTC`:
