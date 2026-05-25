@@ -14,6 +14,40 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-25 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-25 06:58 UTC`:
+  - `kaggle competitions submissions ... --csv` showed `1` entry for `2026-05-25`, so quota at start was `4/5`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` unchanged from prior check (`wangleboro/churn-prediction-gbdt`, `2026-05-23 20:37:50.307000`).
+  - Discussion pages remain inaccessible in this environment; no new forum signal was available.
+  - Queue validated locally:
+    - `run40_pair14_33_w067_033_prob.csv`
+    - `run42_trip_25_30_45.csv`
+
+Cycle 1:
+
+- File: `submissions/public/run40_pair14_33_w067_033_prob.csv`
+- Submitted: `2026-05-25 06:58:37.757000`.
+- Public score: `0.89248`.
+- Status: COMPLETE.
+- Result: FAILED (below best by `-0.00058`).
+
+Cycle 2:
+
+- File: `submissions/public/run42_trip_25_30_45.csv`
+- Submitted: `2026-05-25 07:02:59.587000`.
+- Public score: `0.89279`.
+- Status: COMPLETE.
+- Result: FAILED (below best by `-0.00027`).
+
+Cycle result:
+
+- Best remains unchanged:
+  - `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Remaining quota for `2026-05-25`: `3/5` (if limit is still 5/day).
+- Next step:
+  - Continue with lower-correlation ranking/feature-axis experiments before more high-correlated probability blends.
+
 ## 2026-05-24 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-24 03:19 UTC`:

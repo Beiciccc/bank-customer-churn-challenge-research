@@ -26,6 +26,22 @@ Checked on 2026-04-26.
   - Rebuild feature extraction on a fresh GPU training pass using surname-derived engineered signals before any further large blend sweeps.
   - Keep blend experiments conservative and risk-gated (rank-space / low-corr direction first).
 
+## 2026-05-25 Research Note
+
+- Pre-loop status:
+  - `kaggle competitions submissions --csv` showed one existing 2026-05-25 entry, so remaining daily allowance remained `4/5`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still shows latest public notebook `wangleboro/churn-prediction-gbdt` at `2026-05-23 20:37:50`.
+  - Discussion/forum endpoints are still not accessible in this environment.
+- Cycle execution signal:
+  - `run40_pair14_33_w067_033_prob.csv`: `0.89248` (`-0.00058` from best).
+  - `run42_trip_25_30_45.csv`: `0.89279` (`-0.00027` from best).
+- Error/risk analysis:
+  - Both results suggest the high-correlation probability blend family still over-corrects on public folds.
+  - The leaderboard top is still not moving upward with these families, so direct probability-space perturbations from the same OOF manifold are high-risk.
+- Next research direction:
+  - Shift to lower-correlation rank-space hedges and/or remote GPU re-training that adds explicit `Surname`/ID interaction features from `wangleboro` feature patterns, with strict score-guard rule:
+    - any candidate used as next step must be locally validated for monotonicity and prediction spread before submission.
+
 ## 2026-05-23 Execution Note (Quota 0/2, Queue Hold)
 
 - `kaggle competitions submissions` is blocked at **2/2** for this date (`2026-05-23 07:47 UTC` check), so no new Kaggle upload is currently possible.

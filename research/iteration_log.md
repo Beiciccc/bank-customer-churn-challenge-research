@@ -11,6 +11,43 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-25 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-25 06:58 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` now showed one entry for 2026-05-25 before this cycle started, so quota at start was `4/5` remaining.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still shows `wangleboro/churn-prediction-gbdt` as latest notebook (`2026-05-23 20:37:50.307000`).
+  - Discussion endpoints are still inaccessible in this environment; no fresh forum signal.
+  - Candidate queue pre-validated:
+    - `run40_pair14_33_w067_033_prob.csv`
+    - `run42_trip_25_30_45.csv`
+    - both passed format (`id,Exited`), `110,023` rows, `[0,1]`, and test-id alignment checks.
+
+Cycle 1:
+
+- File: `submissions/public/run40_pair14_33_w067_033_prob.csv`
+- Submitted: `2026-05-25 06:58:37.757000`.
+- Public score: `0.89248`.
+- Status: COMPLETE.
+- Result: FAILED (regressed by `-0.00058` from best).
+- Rule update: first hedge did not improve; move to fallback trip blend immediately.
+
+Cycle 2:
+
+- File: `submissions/public/run42_trip_25_30_45.csv`
+- Submitted: `2026-05-25 07:02:59.587000`.
+- Public score: `0.89279`.
+- Status: COMPLETE.
+- Result: FAILED (regressed by `-0.00027` from best).
+- Error analysis: this keeps the same drift direction as other high-corr probability blends despite stronger OOF proxy.
+
+Cycle result:
+
+- Current best remains unchanged:
+  - `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Next step:
+  - Keep next probes on rank-space or feature-diverse candidates with lower correlation to run33/run12/14 family.
+  - Prefer remote GPU re-training that adds surname-derived or interaction features with conservative calibration.
+
 ## 2026-05-24 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-24 03:19 UTC`:
