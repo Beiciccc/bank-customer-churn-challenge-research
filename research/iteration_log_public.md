@@ -14,6 +14,28 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Delta vs previous best: `+0.00002`
 - Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
 
+## 2026-05-26 Two-Submission Cycle
+
+- Pre-loop:
+  - Two-submission cycle started with full daily quota (`5/5`).
+  - Top recent public kernel is still `wangleboro/churn-prediction-gbdt` (`2026-05-23`), and discussion feed is not accessible in this environment.
+
+Cycle 1:
+
+- File: `run39_rank_hybrid_87_05_00_08.csv`
+- Public score: `0.88904` (regressed)
+
+Cycle 2:
+
+- File: `run39_mix_72_12_08_08.csv`
+- Public score: `0.89014` (regressed)
+
+Current status:
+
+- Best remains `run33run14_on12_w10_10_v3.csv` (`0.89306`).
+- Daily remaining submissions: `3/5`.
+- Next plan: test lower-correlation rank-style hedges and feature-variant models first, then evaluate only one high-risk mix as follow-up.
+
 ## 2026-05-25 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-25 06:58 UTC`:

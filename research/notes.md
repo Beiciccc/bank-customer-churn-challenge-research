@@ -2,6 +2,20 @@
 
 Checked on 2026-04-26.
 
+## 2026-05-26 Research Note
+
+- `kaggle competitions submissions` showed `0` entries for this date at loop start (remaining quota 5/5), so 2 submits were executed.
+- Kernel/discussion refresh:
+  - `wangleboro/churn-prediction-gbdt` remained the latest public notebook snapshot (`2026-05-23 20:37:50.307000`).
+  - Discussion pages were not extractable in this environment.
+- Submission probes:
+  - `run39_rank_hybrid_87_05_00_08.csv` → `0.88904`.
+  - `run39_mix_72_12_08_08.csv` → `0.89014`.
+- Both submissions used valid files (`id,Exited`, row alignment, finite predictions), but still regressed versus best public baseline.
+- Next direction:
+  - pause run33-heavy probability mixtures.
+  - prioritize lower-correlation rank/prob hedges and new engineered-feature model candidates (surname-derived interaction/click-frequency variants) on remote GPU, one experiment per cycle.
+
 ## Competition Pages
 
 - Checked on `2026-05-18`: no new high-signal public code beyond existing high-level baselines was observed. `wangleboro/churn-prediction-gbdt` remains the only notable notebook update, but its code is unchanged conceptually from earlier and still dominated by simple tree-ensemble baselines.

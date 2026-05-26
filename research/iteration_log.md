@@ -11,6 +11,43 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 - Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
 - Delta vs previous best: `+0.00002`
 
+## 2026-05-26 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-26 07:56 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` showed `0` entries for `2026-05-26`; quota start was `5/5`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still showed `wangleboro/churn-prediction-gbdt` (`2026-05-23 20:37:50.307000`).
+  - Discussion scraping remained unavailable in this environment.
+  - Candidate queue prepared and validated:
+    - `run39_rank_hybrid_87_05_00_08.csv`
+    - `run39_mix_72_12_08_08.csv`
+  - Both were verified: schema `id,Exited`, `110,023` rows, alignment with sample IDs, and `Exited` in `[0, 1]` with no NaN/inf.
+
+Cycle 1:
+
+- File: `submissions/public/run39_rank_hybrid_87_05_00_08.csv`
+- Submitted: `2026-05-26 07:56:50.807000`
+- Public score: `0.88904`
+- Status: COMPLETE
+- Result: FAILED (`-0.00402` vs best)
+- Rule update: rank-hedge was too conservative and failed, so we moved to the higher-OOF mix backup.
+
+Cycle 2:
+
+- File: `submissions/public/run39_mix_72_12_08_08.csv`
+- Submitted: `2026-05-26 07:57:35.283000`
+- Public score: `0.89014`
+- Status: COMPLETE
+- Result: FAILED (`-0.00292` vs best)
+- Error analysis: this blend had stronger OOF but is highly correlated to `run33` (`corr≈0.9975`) and regressed on public.
+
+Cycle result:
+
+- Current best remains unchanged:
+  - `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Remaining quota today: `3/5`.
+- Next step:
+  - prioritize low-correlation rank/probability mixes and candidate models with feature-axis differences (surname interaction, balance dynamics), not another run33-heavy convex mix.
+
 ## 2026-05-25 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-25 06:58 UTC`:
