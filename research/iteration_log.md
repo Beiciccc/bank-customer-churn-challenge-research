@@ -48,6 +48,84 @@ Cycle result:
 - Next step:
   - prioritize low-correlation rank/probability mixes and candidate models with feature-axis differences (surname interaction, balance dynamics), not another run33-heavy convex mix.
 
+## 2026-05-27 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-27 00:08 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` showed `0` entries for `2026-05-27`; quota start was `5/5`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still showed `wangleboro/churn-prediction-gbdt` (`2026-05-23 20:37:50.307000`).
+  - Discussion scraping remained unavailable in this environment.
+  - Candidate queue prepared from validated sources:
+    - `run43_prob14_40_33_60.csv`
+    - `run43_rank14_50_33_50.csv`
+  - Both files passed schema checks (`id,Exited`, `110,023` rows), test-id alignment, and value validity (`[0,1]`, finite).
+
+Cycle 1:
+
+- File: `submissions/public/run43_prob14_40_33_60.csv`
+- Submitted: `2026-05-27 00:08:54.203000`
+- Public score: `0.89123`
+- Status: COMPLETE
+- Result: FAILED (`-0.00183` vs best)
+- Error analysis: the blend remains too aligned to current `run33`-dominant manifold and overfits/underperforms public.
+
+Cycle 2:
+
+- File: `submissions/public/run43_rank14_50_33_50.csv`
+- Submitted: `2026-05-27 00:09:00.487000`
+- Public score: `0.89247`
+- Status: COMPLETE
+- Result: FAILED (`-0.00059` vs best)
+- Error analysis: low-correlation rank treatment improved drift but did not improve score.
+
+Cycle result:
+
+- Current best remains unchanged:
+  - `submissions/public/run33run14_on12_w10_10_v3.csv` at `0.89306`.
+- Remaining quota today: `3/5`.
+- Next step:
+  - Keep `run33`-family candidates as fallback only.
+  - Next queue should prioritize run41-family axes (`run41_xgb_robust`, `run41_lgb_robust`) and one controlled follow-up `run33_xgb` + run41 blend (with optional rank treatment).
+
+## 2026-05-27 Two-Submission Cycle (Quota Block)
+
+- Pre-loop checks at `2026-05-27 01:23 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` showed `2` completed submissions today (`run43_prob14_40_33_60.csv`, `run43_rank14_50_33_50.csv`), so remaining quota is `0/2`.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still top entry `wangleboro/churn-prediction-gbdt` at `2026-05-23 20:37:50`.
+  - Discussion endpoints still unavailable; no stable thread signal.
+  - Candidate queue prepared from existing OOF/test artifacts:
+    - `run44_rank33_14_41xgb_60_20_20.csv`
+    - `run44_prob33_14_41lgb_60_20_20.csv`
+  - Both candidates passed validation:
+    - `id,Exited` schema with exact `110,023` rows
+    - `Exited` finite and in `[0,1]`
+    - no duplicates and exact test-id alignment
+    - no NaN/Inf values
+
+Experiment diagnostics:
+
+- `run44_rank33_14_41xgb_60_20_20`:
+  - OOF AUC `0.89714`
+  - Corr vs `run33_xgb` OOF `0.84799`
+  - Baseline-test correlation `0.84739`
+- `run44_prob33_14_41lgb_60_20_20`:
+  - OOF AUC `0.89727`
+  - Corr vs `run33_xgb` OOF `0.99662`
+  - Baseline-test correlation `0.99049`
+
+Cycle 1:
+
+- File: `submissions/public/run44_rank33_14_41xgb_60_20_20.csv`
+- Submit result: blocked by quota before scoring.
+- API text: `Submission not allowed: Your team has used its daily Submission allowance (2) today, please try again tomorrow UTC (23 hours from now).`
+
+Cycle 2:
+
+- Not attempted due quota.
+- ETA to retry at UTC reset: `23.6` hours from `2026-05-27 01:23 UTC`.
+- Post-cycle rule update:
+  - hold second candidate until reset (`run44_prob33_14_41lgb_60_20_20.csv`)
+  - keep waiting/monitoring loop active and only submit when API confirms `0/2` remaining.
+
 ## 2026-05-25 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-25 06:58 UTC`:

@@ -2,6 +2,42 @@
 
 Checked on 2026-04-26.
 
+## 2026-05-27 Research Note
+
+- 公开更新扫描结果：`wangleboro/churn-prediction-gbdt` 仍是最新公开 notebook（`2026-05-23`），讨论区仍不可稳定抓取。
+- 本轮候选生成来源于可用 OOF/test 预测：
+  - `run43_prob14_40_33_60.csv`
+  - `run43_rank14_50_33_50.csv`
+- 两者均通过本地文件与提交预检（`id` 对齐、`110,023` 行、`[0,1]` 且有限）。
+- 公开分数结果：
+  - `0.89123`（`run43_prob14_40_33_60.csv`）
+  - `0.89247`（`run43_rank14_50_33_50.csv`）
+- 结论：
+  - run14/run33_xgb 的概率与 rank 空间方向本轮均未超越基线；
+  - rank 空间路径虽然把相关性显著压低，但短期未带来增益。
+- 下一步：
+  - 转向 run41 家族（`run41_xgb_robust` / `run41_lgb_robust`）与 run33 的低相关 mix，保留单轮只两步提交节奏，并严格记录预期与失效原因。
+
+## 2026-05-27 追加提分循环（提交受限）
+
+- 当前提交通知：`2026-05-27` 仍有 `2/2` 次提交（`run43_prob14_40_33_60.csv`, `run43_rank14_50_33_50.csv`）已完成，配额到达上限，API 直接返回 `23 hours from now` 的重置提示。
+- 公网更新扫描保持不变：
+  - `wangleboro/churn-prediction-gbdt` 仍是最新 notebook（`2026-05-23`）。
+  - 讨论区抓取仍无效（反爬/反验证码导致不可稳定提取）。
+- 本轮新增候选（本地 OOF 先验 + 本地格式验证）：
+  - `run44_rank33_14_41xgb_60_20_20.csv`
+  - `run44_prob33_14_41lgb_60_20_20.csv`
+- 预检结果：
+  - 两者均是 `id,Exited`、`110,023` 行、`[0,1]` 且无 NaN/inf；
+  - test id 完全对齐；
+  - OOF 指标：
+    - `rank` 版：`0.89714`（`corr(run33_xgb)=0.8480`）
+    - `prob` 版：`0.89727`（`corr(run33_xgb)=0.9966`）
+- 结果与规则：
+  - `run44_rank33_14_41xgb_60_20_20.csv` 提交前 1 次尝试被 `daily Submission allowance (2)` 拒绝；
+  - 暂停第二次提交；
+  - 计划 UTC 归位后按既定顺序提交；若两者都失败，继续回溯到更低相关方向（新 feature 轴或 rank-only 混合）而非增大高相关 prob 方向。
+
 ## 2026-05-26 Research Note
 
 - `kaggle competitions submissions` showed `0` entries for this date at loop start (remaining quota 5/5), so 2 submits were executed.

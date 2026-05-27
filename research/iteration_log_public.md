@@ -36,6 +36,53 @@ Current status:
 - Daily remaining submissions: `3/5`.
 - Next plan: test lower-correlation rank-style hedges and feature-variant models first, then evaluate only one high-risk mix as follow-up.
 
+## 2026-05-27 Two-Submission Cycle
+
+- Pre-loop:
+  - Two-submission cycle started with full daily quota (`5/5`).
+  - `kaggle kernels list` still latest `wangleboro/churn-prediction-gbdt` (`2026-05-23`), no accessible discussion feed.
+  - Queue prepared:
+    - `run43_prob14_40_33_60.csv`
+    - `run43_rank14_50_33_50.csv`
+
+Cycle 1:
+
+- File: `run43_prob14_40_33_60.csv`
+- Public score: `0.89123` (regressed)
+
+Cycle 2:
+
+- File: `run43_rank14_50_33_50.csv`
+- Public score: `0.89247` (regressed)
+
+Current status:
+
+- Best remains `run33run14_on12_w10_10_v3.csv` (`0.89306`).
+- Daily remaining submissions: `3/5`.
+- Next plan: evaluate run41-family diversification with conservative run33/41 mixtures and a rank-space follow-up when stable.
+
+## 2026-05-27 Two-Submission Cycle (Quota Block)
+
+- Pre-loop:
+  - UTC check at `2026-05-27 01:23`: today already has `2/2` completed submissions.
+  - Public-kernel scan unchanged: `wangleboro/churn-prediction-gbdt` (`2026-05-23`).
+  - Discussion still inaccessible.
+  - Queue prepared and validated:
+    - `run44_rank33_14_41xgb_60_20_20.csv`
+    - `run44_prob33_14_41lgb_60_20_20.csv`
+
+Cycle 1:
+
+- Candidate: `run44_rank33_14_41xgb_60_20_20.csv`
+- Status: BLOCKED by quota.
+- Message: `Submission not allowed: Your team has used its daily Submission allowance (2) today`.
+
+Cycle 2:
+
+- Not started due quota.
+- ETA to retry: `23.6` hours.
+- Plan: wait for UTC reset then submit candidates in order (`rank` then `prob`).
+
 ## 2026-05-25 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-25 06:58 UTC`:
