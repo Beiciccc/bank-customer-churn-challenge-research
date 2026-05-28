@@ -126,6 +126,80 @@ Cycle 2:
   - hold second candidate until reset (`run44_prob33_14_41lgb_60_20_20.csv`)
   - keep waiting/monitoring loop active and only submit when API confirms `0/2` remaining.
 
+## 2026-05-28 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-28 09:37 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` returned `0` entries for `2026-05-28`, so cycle started with `2/2` available.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still showed `wangleboro/churn-prediction-gbdt` with latest run `2026-05-23 20:37:50`.
+  - Discussion抓取依然不可稳定读取。
+  - Candidate queue remained:
+    - `run44_rank33_14_41xgb_60_20_20.csv`
+    - `run44_prob33_14_41lgb_60_20_20.csv`
+  - Validation passed for both:
+    - `id,Exited` schema
+    - `110,023` rows
+    - finite values in `[0, 1]`
+    - no NaN/Inf
+    - id alignment matched sample
+
+Cycle 1:
+
+- File: `submissions/public/run44_rank33_14_41xgb_60_20_20.csv`
+- Submitted: `2026-05-28 09:39:26.440000`
+- Public score: `0.89103`
+- Status: COMPLETE
+- Result: FAILED (below `0.89306` baseline).
+
+Cycle 2:
+
+- File: `submissions/public/run44_prob33_14_41lgb_60_20_20.csv`
+- Submitted: `2026-05-28 09:39:32.250000`
+- Public score: `0.89101`
+- Status: COMPLETE
+- Result: FAILED (further below baseline).
+
+Cycle result:
+
+- Current best remains unchanged: `submissions/public/run33run14_on12_w10_10_v3.csv` (`0.89306`).
+- Today submissions: `2/2` now used.
+- Error analysis:
+  - `run44_rank33_14_41xgb_60_20_20` had lower OOF correlation intent but failed in public.
+  - `run44_prob33_14_41lgb_60_20_20` had high run33-family correlation and also failed.
+- Next direction:
+  - pause direct low-rank/low-corr convex blends with current run33/41 family for at least one cycle.
+  - next experiments should add a different model axis (calibration or re-trained feature-axis experiment) before resubmitting a third variant.
+
+## 2026-05-28 Two-Submission Cycle (Queue Refresh Before Reset)
+
+- Pre-loop checks at `2026-05-28 12:08 UTC`:
+  - `kaggle competitions submissions ... --csv` now shows `2/2` used for `2026-05-28` and no new submission can be accepted.
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun -v` still points to:
+    - `wangleboro/churn-prediction-gbdt` (`2026-05-23 20:37:50`)
+  - Discussion scraping remains unavailable in this environment.
+
+- Deep research and experiment update:
+  - Pulled latest `wangleboro/churn-prediction-gbdt` notebook source and confirmed it is still a tree-ensemble + simple feature baseline; no new public signal.
+  - From local OOF/test arrays, built new rank and calibration candidates on run45:
+    - `run45_rank_40_20_20_20_v1.csv` (OOF `0.8985637`)
+    - `run45_rank_60_25_15_v1.csv` (OOF `0.8985034`)
+    - `run45_isotonic_90_10_on12_v1.csv` (OOF `0.8983295`)
+    - `run45_w97_3_isotonic_on12_v1.csv` (OOF `0.8982906`)
+  - All candidates passed local checks:
+    - `id,Exited` schema
+    - `110,023` rows
+    - finite and `[0,1]`
+    - no NaN/Inf
+    - id alignment against sample
+    - remote mirror copied to `/Users/Kun/Bank Customer Churn Challenge/submissions`
+
+Cycle status:
+
+- Pending: no submission before reset. Submit queue after reset is set as:
+  - `run45_rank_40_20_20_20_v1.csv`
+  - `run45_rank_60_25_15_v1.csv`
+- If both are blocked or fail, fallback to calibrated backups in the order listed above.
+- On first successful submit: record public score, compare vs best, and continue only if rule says positive direction.
+
 ## 2026-05-25 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-25 06:58 UTC`:

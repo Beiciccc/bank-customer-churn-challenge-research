@@ -83,6 +83,55 @@ Cycle 2:
 - ETA to retry: `23.6` hours.
 - Plan: wait for UTC reset then submit candidates in order (`rank` then `prob`).
 
+## 2026-05-28 Two-Submission Cycle
+
+- Pre-loop:
+  - `2026-05-28` started with `0` completed submissions in list, so cycle had `2/2` quota.
+  - Public-kernel scan unchanged: `wangleboro/churn-prediction-gbdt` (latest `2026-05-23`).
+  - Discussion抓取仍不可稳定获取。
+  - Queue confirmed:
+    - `run44_rank33_14_41xgb_60_20_20.csv`
+    - `run44_prob33_14_41lgb_60_20_20.csv`
+
+Cycle 1:
+
+- File: `run44_rank33_14_41xgb_60_20_20.csv`
+- Public score: `0.89103` (failed)
+
+Cycle 2:
+
+- File: `run44_prob33_14_41lgb_60_20_20.csv`
+- Public score: `0.89101` (failed)
+
+Current status:
+
+- Best remains `run33run14_on12_w10_10_v3.csv` (`0.89306`) by public record.
+- 2026-05-28 submissions used: `2/2`.
+- Next direction:
+  - pause direct convex run33/run41 variants.
+  - reroute to orthogonal feature/model-axis experiments before next public submission.
+
+## 2026-05-28 Two-Submission Cycle (Refresh Before Reset)
+
+- Pre-loop check at `2026-05-28 12:08 UTC`:
+  - `kaggle competitions submissions ... --csv` shows `2/2` used for this date, so submissions are blocked until UTC reset.
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` remains unchanged: `wangleboro/churn-prediction-gbdt` (`2026-05-23 20:37:50`).
+  - Discussion pages still unavailable via current scraping path.
+
+- Candidate refresh from local OOF scan (run45 family) for post-reset queue:
+  - `run45_rank_40_20_20_20_v1.csv` (OOF `0.8985637`)
+  - `run45_rank_60_25_15_v1.csv` (OOF `0.8985034`)
+  - `run45_isotonic_90_10_on12_v1.csv` (OOF `0.8983295`)
+  - `run45_w97_3_isotonic_on12_v1.csv` (OOF `0.8982906`)
+  - All candidates are format-valid and synced to remote project path.
+
+- Cycle status:
+  - No submission yet (quota block).
+  - Reset-queue order for next cycle:
+    1) `run45_rank_40_20_20_20_v1.csv`
+    2) `run45_rank_60_25_15_v1.csv`
+  - Calibrated backups remain for controlled follow-up if first two candidates both fail the next rule test.
+
 ## 2026-05-25 Two-Submission Cycle
 
 - Pre-loop checks at `2026-05-25 06:58 UTC`:

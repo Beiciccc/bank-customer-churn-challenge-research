@@ -38,6 +38,41 @@ Checked on 2026-04-26.
   - 暂停第二次提交；
   - 计划 UTC 归位后按既定顺序提交；若两者都失败，继续回溯到更低相关方向（新 feature 轴或 rank-only 混合）而非增大高相关 prob 方向。
 
+## 2026-05-28 Research Note
+
+- 今日更新：`2026-05-28` 额度已恢复为可用（当日未检测到历史提交）。
+- 公开更新扫描保持不变：
+  - `wangleboro/churn-prediction-gbdt`（`2026-05-23`）仍是可见最新 notebook；
+  - 讨论区仍无法稳定抓取（反爬/验证码拦截）。
+- 按既定队列提交两份候选：
+  - `run44_rank33_14_41xgb_60_20_20.csv`
+  - `run44_prob33_14_41lgb_60_20_20.csv`
+- 公榜结果：
+  - `0.89103`（rank 混合）
+  - `0.89101`（prob 混合）
+- 错误分析与规则更新：
+  - 两份均未超越当前基线 `0.89306`；
+  - 低相关 rank 路径未兑现预期提升；
+  - 高相关 prob 路径回撤更明显；
+  - 下一步转向不同建模轴（校准/分组-校准策略，或远端新增特征轴重训）再重新进入提交。
+
+## 2026-05-28 追加提分循环（配额阻塞，候选重排）
+
+- 公开扫描维持不变：`wangleboro/churn-prediction-gbdt` 截止仍是 `2026-05-23` 的版本，讨论抓取仍不可稳定读取。
+- 当前配额：`2026-05-28` 已使用 `2/2`，未到 UTC 重置。
+- 本地 OOF 重扫（run45 系列 + run33/run12）后，新增可用候选：
+  - `run45_rank_40_20_20_20_v1.csv`（OOF `0.8985637`）
+  - `run45_rank_60_25_15_v1.csv`（OOF `0.8985034`）
+  - `run45_isotonic_90_10_on12_v1.csv`（OOF `0.8983295`）
+  - `run45_w97_3_isotonic_on12_v1.csv`（OOF `0.8982906`）
+- 通过本地验证：`id,Exited`、`110,023` 行、`[0,1]`、无 NaN/Inf、id 对齐。
+- 同步状态：候选文件已本地生成并同步到远端路径。
+- 下一步：解封后按以下顺序提交并逐条记录分数：
+  1) `run45_rank_40_20_20_20_v1.csv`
+  2) `run45_rank_60_25_15_v1.csv`
+
+如果两条都失败，再评估是否引入保守的校准备选。
+
 ## 2026-05-26 Research Note
 
 - `kaggle competitions submissions` showed `0` entries for this date at loop start (remaining quota 5/5), so 2 submits were executed.
