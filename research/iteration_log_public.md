@@ -6,13 +6,39 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 
 ## Current Best
 
-- Submission: `submissions/public/run33run14_on12_w10_10_v3.csv`
-- Latest submission: `2026-05-12 07:58:27.390000`
-- OOF/CV (local blend): `0.898109`
-- Public score: `0.89306`
-- Rank after submission: `1 / 11` as refreshed on `2026-05-12 UTC`.
-- Delta vs previous best: `+0.00002`
-- Notes: 3-model blend (`0.32 run33 + 0.10 run14 + 0.58 run12`) with moderated prediction spread.
+- Submission: `submissions/public/run45_rank_40_20_20_20_v1.csv`
+- Latest submission: `2026-05-29 00:28:39.500000`
+- OOF/CV (local blend): `0.8985637`
+- Public score: `0.89327`
+- Rank after submission: `1 / 11` as refreshed on `2026-05-29 UTC`.
+- Delta vs previous best: `+0.00021`
+- Notes: 3-model-style rank-space hedge with improved public transfer (`+0.00021`).
+
+## 2026-05-29 Two-Submission Cycle
+
+- Pre-loop:
+  - `kaggle competitions submissions --csv` showed `0` entries for `2026-05-29`; quota started at `2/2`.
+  - Public kernel baseline unchanged: `wangleboro/churn-prediction-gbdt` (`2026-05-23`).
+  - Discussion feed remains inaccessible in this environment.
+  - Queue validated:
+    - `run45_rank_40_20_20_20_v1.csv`
+    - `run45_rank_60_25_15_v1.csv`
+
+Cycle 1:
+
+- File: `run45_rank_40_20_20_20_v1.csv`
+- Public score: `0.89327` (improved)
+
+Cycle 2:
+
+- File: `run45_rank_60_25_15_v1.csv`
+- Public score: `0.89321` (small drop from cycle best, still above old baseline)
+
+Current status:
+
+- Best remains `submissions/public/run45_rank_40_20_20_20_v1.csv` at `0.89327`.
+- Quota used on 2026-05-29: `2/2`.
+- Next plan: keep `run45_rank_40_20_20_20_v1.csv` as anchor; next validation batch should explore calibration/orthogonality-preserving variants (`run45_isotonic_90_10_on12_v1.csv`, `run45_w97_3_isotonic_on12_v1.csv`) after the next reset.
 
 ## 2026-05-26 Two-Submission Cycle
 

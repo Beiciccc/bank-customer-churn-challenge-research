@@ -91,16 +91,10 @@ Decision:
 
 ## Current Queued Candidate
 
-- `run45_rank_40_20_20_20_v1.csv`
-  - OOF `0.8985637`
-  - Low/moderate-correlation rank-space candidate (corr to run33 OOF about `0.8443`).
-- `run45_rank_60_25_15_v1.csv`
-  - OOF `0.8985034`
-  - Similar rank-space hedge with slightly lower run45_weight and OOF/corr balance.
 - `run45_isotonic_90_10_on12_v1.csv`
   - OOF `0.8983295`
   - Calibrated probability path with high run12 similarity; low-variance backup.
 - `run45_w97_3_isotonic_on12_v1.csv`
   - OOF `0.8982906`
   - Calibrated probability path, even lower perturbation.
-- Queue status: ready; awaiting UTC quota reset before actual submissions.
+- Queue status: first two run45 rank candidates have completed; `run45_isotonic_90_10_on12_v1.csv` is now next priority on next reset, with `run45_w97_3_isotonic_on12_v1.csv` as backup.

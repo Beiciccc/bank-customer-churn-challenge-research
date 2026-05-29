@@ -2,6 +2,23 @@
 
 Checked on 2026-04-26.
 
+## 2026-05-29 追加提分循环
+
+- 公开扫描与讨论更新：
+  - `kaggle kernels list --competition binary-battle-ml-bank-customer-churn-challenge --sort-by dateRun -v` 仍显示 `wangleboro/churn-prediction-gbdt` 最近运行于 `2026-05-23 20:37:50`，未发现可迁移的新 notebook 版本。
+  - 对 `discussion`、`rules` 与高分入口的直接抓取在当前执行环境仍不稳定/不可读；本次改为基于可访问 kernel 元信息与本地 OOF 先验循环。
+  - 关键公开代码检查结论：高分公开 notebook 仍以 `GBDT + 交叉特征 + 简单 CV` 为主，未出现可直接落地的新模型族。
+- 提交流程（本轮两次）：
+  - `run45_rank_40_20_20_20_v1.csv`（`0.89327`） ✅
+  - `run45_rank_60_25_15_v1.csv`（`0.89321`） ✅
+- 误差分析与策略更新：
+  - 两次都高于旧基线 (`0.89306`)，其中 `run45_rank_40_20_20_20_v1.csv` 为新基线（`+0.00021`）。
+  - 第二条较第二高，提示 rank-space权重继续下压至更稳健区域。
+- 下一步方向（本次提交结束后）：
+  - 锁定新的全局最佳为 `run45_rank_40_20_20_20_v1.csv`；
+  - 缓慢推进 `run45_isotonic_90_10_on12_v1.csv` 与 `run45_w97_3_isotonic_on12_v1.csv` 做可控校准对照；
+  - 若再次回落，则回退到远端重新训练的轻量特征轴（如高基数名称/交互）再回到 rank 空间融合。
+
 ## 2026-05-27 Research Note
 
 - 公开更新扫描结果：`wangleboro/churn-prediction-gbdt` 仍是最新公开 notebook（`2026-05-23`），讨论区仍不可稳定抓取。

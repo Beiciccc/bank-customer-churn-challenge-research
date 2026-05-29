@@ -4,12 +4,51 @@ This file is the required checkpoint after each Kaggle submission. Each cycle re
 
 ## Current Best
 
-- Submission: `submissions/public/run33run14_on12_w10_10_v3.csv`
-- Latest submission: `2026-05-12 07:58:27.390000`
-- OOF/CV (local blend): `0.898109`
-- Public score: `0.89306`
-- Rank after submission: `1 / 11` as refreshed on `2026-05-17 UTC`.
-- Delta vs previous best: `+0.00002`
+- Submission: `submissions/public/run45_rank_40_20_20_20_v1.csv`
+- Latest submission: `2026-05-29 00:28:39.500000`
+- OOF/CV (local blend): `0.8985637`
+- Public score: `0.89327`
+- Rank after submission: `1 / 11` as refreshed on `2026-05-29 UTC`.
+- Delta vs previous best: `+0.00021`
+
+## 2026-05-29 Two-Submission Cycle
+
+- Pre-loop checks at `2026-05-29 00:28 UTC`:
+  - `kaggle competitions submissions -c binary-battle-ml-bank-customer-churn-challenge --csv` showed `0` entries for `2026-05-29`; quota started at `2/2` (current limit inferred from API error behavior).
+  - `kaggle kernels list --competition ... --sort-by dateRun -v` still showed `wangleboro/churn-prediction-gbdt` (`2026-05-23 20:37:50.307000`).
+  - Discussion scraping still unavailable in this environment.
+  - Candidate queue prepared and validated:
+    - `run45_rank_40_20_20_20_v1.csv`
+    - `run45_rank_60_25_15_v1.csv`
+  - Candidate file checks passed: `id,Exited` header, `110,023` rows, `Exited` finite in `[0,1]`, and sample-id alignment.
+
+Cycle 1:
+
+- File: `submissions/public/run45_rank_40_20_20_20_v1.csv`
+- Submitted: `2026-05-29 00:28:39.500000`
+- Public score: `0.89327`
+- Status: COMPLETE
+- Result: SUCCESS (`+0.00021` vs prior best).
+- Risk notes: this is the higher-OFF rank-space hedge in the two-candidate queue and shows immediate positive transfer.
+
+Cycle 2:
+
+- File: `submissions/public/run45_rank_60_25_15_v1.csv`
+- Submitted: `2026-05-29 00:29:34.147000`
+- Public score: `0.89321`
+- Status: COMPLETE
+- Result: IN PROGRESS OF IMPROVEMENT (below best: `-0.00006`, above old baseline by `+0.00015`).
+- Risk notes: rank-style family remains useful but appears to need slightly tighter orthogonality weight.
+
+Cycle result:
+
+- Current best now:
+  - `submissions/public/run45_rank_40_20_20_20_v1.csv` at `0.89327`.
+- Remaining quota today: `0/2`.
+- Next step:
+  - Hold the improved best as anchor.
+  - Queue next for the first reset: `run45_isotonic_90_10_on12_v1.csv` then `run45_w97_3_isotonic_on12_v1.csv`.
+  - Keep the risk gate strict: no direct high-correlation probability mixes unless a clear calibration/orthogonality signal appears from local diagnostics and/or fresh public code.
 
 ## 2026-05-26 Two-Submission Cycle
 
